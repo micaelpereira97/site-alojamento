@@ -1,0 +1,51 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() &&
+             exists(/databases/$(database)/documents/adminUsers/$(request.auth.uid));
+    }
+
+    // Units Collection - Public read, admin write
+    match /units/{unitId} {
+      allow read: if true; // Anyone can read units
+      allow write: if isAdmin(); // Only admins can modify
+    }
+
+    // Bookings Collection
+    match /bookings/{bookingId} {
+      allow read: if isAdmin(); // Only admins can see all bookings
+      allow create: if true; // Anyone can create a booking
+      allow update: if isAdmin(); // Only admins can update
+      allow delete: if isAdmin(); // Only admins can delete
+    }
+
+    // Blocked Dates Collection
+    match /blockedDates/{blockId} {
+      allow read: if true; // Anyone can see blocked dates
+      allow write: if isAdmin(); // Only admins can manage
+    }
+
+    // Chat Sessions Collection - Public (temporary sessions)
+    match /chatSessions/{sessionId} {
+      allow read, write: if true;
+
+      // Messages subcollection
+      match /messages/{messageId} {
+        allow read, write: if true;
+      }
+    }
+
+    // Admin Users Collection - Only admins can read
+    match /adminUsers/{userId} {
+      allow read: if isAuthenticated() && request.auth.uid == userId;
+      allow write: if false; // Managed server-side only
+    }
+  }
+}
