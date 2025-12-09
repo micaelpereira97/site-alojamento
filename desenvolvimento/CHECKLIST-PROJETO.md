@@ -92,8 +92,11 @@
 - [x] **Firebase Functions (Node.js + TypeScript)**
   - [x] `getUnits` - Obter todas as unidades ativas
   - [x] `checkAvailability` - Verificar disponibilidade por unidade
-  - [x] `createBooking` - Criar nova reserva
+  - [x] `createBooking` - Criar nova reserva (com status pending) ✨ MELHORADO
   - [x] `chatWithAI` - Endpoint para chat com IA
+  - [x] `updateBookingStatus` - Atualizar status de reserva ✨ NOVO
+  - [x] `cancelBooking` - Cancelar reserva com cálculo de reembolso ✨ NOVO
+  - [x] `getBooking` - Obter detalhes de reserva por ID ou código ✨ NOVO
 
 - [x] **Serviços Backend**
   - [x] `calendar.service.ts` - Integração Google Calendar API
@@ -101,9 +104,33 @@
     - [x] createEvent() - Criar evento de reserva
   - [x] `gemini.service.ts` - Integração Gemini AI
     - [x] chat() - Processar mensagens de chat
-  - [x] `email.service.ts` - Envio de emails
-    - [x] sendBookingConfirmation() - Email para hóspede
-    - [x] notifyOwner() - Notificação para proprietário
+  - [x] `email.service.ts` - Envio de emails ✨ MELHORADO
+    - [x] sendBookingConfirmation() - Email HTML profissional para hóspede
+    - [x] notifyOwner() - Email HTML de notificação para proprietário
+    - [x] sendBookingStatusUpdate() - Atualização de status por email
+    - [x] Templates HTML responsivos
+    - [x] Fallback para texto simples
+
+- [x] **Sistema de Email Profissional** ✨ NOVO
+  - [x] Templates HTML responsivos e elegantes
+  - [x] Email de confirmação para hóspede
+  - [x] Email de notificação para proprietário
+  - [x] Sistema de variáveis dinâmicas
+  - [x] Blocos condicionais nos templates
+  - [x] Formatação de datas em Português
+  - [x] Status visual (pending/confirmed)
+  - [x] Política de cancelamento incluída
+  - [x] Links de ação (Google Calendar, contacto)
+
+- [x] **Sistema de Gestão de Reservas** ✨ NOVO
+  - [x] Status de reservas (pending/confirmed/cancelled/completed)
+  - [x] Política de cancelamento automática (30/15 dias)
+  - [x] Cálculo automático de reembolsos
+  - [x] Validação de datas e capacidade
+  - [x] Geração de códigos de confirmação
+  - [x] Cálculo de noites e preços
+  - [x] Verificação de sobreposição de datas
+  - [x] Utilities para manipulação de reservas
 
 - [x] **Validação de Dados**
   - [x] Schemas Zod para validação

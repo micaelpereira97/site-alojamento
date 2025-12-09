@@ -14,6 +14,13 @@ import {
   type AvailabilityInput
 } from './validators/schemas';
 
+// Export booking management functions
+export {
+  updateBookingStatus,
+  cancelBooking,
+  getBooking
+} from './functions/booking-management';
+
 // CORS configuration
 const corsHandler = cors({ origin: true });
 
@@ -180,39 +187,51 @@ export const createBooking = onCall(async (request) => {
       }
     }
 
-    // Save booking to Firestore
-    const bookingRef = await db.collection('bookings').add({
+    // Generate confirmation code
+    const tempBookingId = db.collection('bookings').doc().id;
+    const confirmationCode = `RN${new Date().getFullYear()}${tempBookingId.substring(0, 6).toUpperCase()}`;
+
+    // Save booking to Firestore with PENDING status
+    const bookingRef = await db.collection('bookings').doc(tempBookingId).set({
       ...bookingData,
       nights,
       totalPrice,
       googleCalendarEventId: calendarEventId,
-      status: 'confirmed',
+      confirmationCode,
+      status: 'pending', // Changed to pending by default
       createdAt: new Date(),
       updatedAt: new Date()
     });
 
-    const confirmationCode = `RN${new Date().getFullYear()}${bookingRef.id.substring(0, 6).toUpperCase()}`;
-
-    // Send emails (async, don't wait)
+    // Prepare email data
     const bookingForEmail = {
       ...bookingData,
+      unitId: bookingData.unitId,
       nights,
       totalPrice,
+      confirmationCode,
+      status: 'pending' as const,
       checkIn: checkInDate,
-      checkOut: checkOutDate
+      checkOut: checkOutDate,
+      capacity: unit?.capacity || 2
     };
 
-    emailService.sendBookingConfirmation(bookingForEmail).catch(console.error);
-    emailService.notifyOwner(bookingForEmail).catch(console.error);
+    // Send emails (async, don't wait - but log errors)
+    emailService.sendBookingConfirmation(bookingForEmail)
+      .catch(err => console.error('Failed to send confirmation email:', err));
+
+    emailService.notifyOwner(bookingForEmail)
+      .catch(err => console.error('Failed to send owner notification:', err));
 
     return {
       success: true,
       data: {
-        bookingId: bookingRef.id,
+        bookingId: tempBookingId,
         confirmationCode,
         calendarEventId: calendarEventId,
         totalPrice,
-        nights
+        nights,
+        status: 'pending'
       }
     };
   } catch (error: any) {
