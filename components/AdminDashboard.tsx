@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { useAdminBookings } from '../src/hooks/useAdminBookings';
 import type { Booking } from '../src/hooks/useAdminBookings';
+import { ConsolidatedCalendar } from './ConsolidatedCalendar';
 
 interface AdminDashboardProps {
   onClose: () => void;
@@ -161,6 +162,11 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <TrendingUp className="text-green-500" size={32} />
             </div>
           </div>
+        </div>
+
+        {/* Calendário Consolidado */}
+        <div className="p-6 bg-gray-50">
+          <ConsolidatedCalendar bookings={bookings} />
         </div>
 
         {/* Filters */}
