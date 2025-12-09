@@ -50,11 +50,13 @@ export const ChatWidget: React.FC = () => {
     setIsLoading(true);
 
     try {
-      if (!process.env.API_KEY) {
-        throw new Error("API Key not set");
+      const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+
+      if (!apiKey) {
+        throw new Error("VITE_GEMINI_API_KEY não está configurada. Consulte desenvolvimento/SETUP-GUIDE.md");
       }
-      
-      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+
+      const ai = new GoogleGenAI({ apiKey });
       
       // Construct chat history for context
       const history = messages.map(m => ({

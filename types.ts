@@ -42,4 +42,6 @@ export enum Tab {
   ACTIVITIES = 'activities',
   SERVICES = 'services',
   LOCATION = 'location',
+  TERMS = 'terms',
+  PRIVACY = 'privacy',
 }

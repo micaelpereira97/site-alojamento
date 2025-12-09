@@ -4,6 +4,7 @@ import { Tab, Unit, Service } from './types';
 import { UnitCard } from './components/UnitCard';
 import { BookingCalendar } from './components/BookingCalendar';
 import { ChatWidget } from './components/ChatWidget';
+import { GoogleMap } from './components/GoogleMap';
 import { MapPin, Phone, Mail, Instagram, Facebook, Menu, X, CheckCircle, Calendar as CalendarIcon, Leaf, ExternalLink, Settings, ShieldCheck, Info, Coffee, Sparkles, Bike, HeartHandshake, BedDouble, Bath, Users, Maximize, ArrowRight, ArrowLeft } from 'lucide-react';
 import { format } from 'date-fns';
 import { pt } from 'date-fns/locale';
@@ -310,7 +311,7 @@ const App: React.FC = () => {
           Perdidos na natureza, mas fáceis de encontrar.
         </p>
       </div>
-      
+
       <div className="grid md:grid-cols-3 gap-8 bg-white rounded-2xl shadow-xl overflow-hidden border border-stone-100">
         <div className="md:col-span-1 p-8 bg-brand-900 text-white flex flex-col justify-center space-y-8">
             <div>
@@ -334,19 +335,261 @@ const App: React.FC = () => {
               <p className="text-brand-100">Check-out: até às 11:00</p>
             </div>
         </div>
-        <div className="md:col-span-2 h-96 md:h-auto bg-stone-200 relative">
-          {/* Mock Map */}
-          <img 
-            src="https://images.unsplash.com/photo-1524661135-423995f22d0b?w=800&q=80" 
-            alt="Mapa" 
-            className="w-full h-full object-cover opacity-80"
+        <div className="md:col-span-2 h-96 md:h-auto">
+          <GoogleMap
+            address="Serra da Lousã, Portugal"
+            zoom={13}
+            className="w-full h-full"
           />
-          <div className="absolute inset-0 flex items-center justify-center">
-             <div className="bg-white p-4 rounded-lg shadow-lg text-center">
-               <p className="font-bold text-stone-800">Mapa Interativo Indisponível</p>
-               <a href="#" className="text-brand-600 underline text-sm">Abrir no Google Maps</a>
-             </div>
-          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderTerms = () => (
+    <div className="pt-24 pb-16 px-4 max-w-4xl mx-auto animate-fade-in">
+      <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12 border border-stone-100">
+        <h1 className="text-4xl font-serif font-bold text-stone-800 mb-8">Termos e Condições</h1>
+        <div className="prose prose-stone max-w-none">
+          <p className="text-sm text-stone-500 mb-8">Última atualização: 9 de Dezembro de 2025</p>
+
+          <h2 className="text-2xl font-serif font-bold mt-8 mb-4">1. Aceitação dos Termos</h2>
+          <p>
+            Ao utilizar o website do Recanto da Natureza e ao efetuar uma reserva, você aceita e concorda em ficar vinculado aos presentes Termos e Condições. Se não concordar com estes termos, por favor não utilize os nossos serviços.
+          </p>
+
+          <h2 className="text-2xl font-serif font-bold mt-8 mb-4">2. Reservas</h2>
+          <h3 className="text-xl font-semibold mt-6 mb-3">2.1 Processo de Reserva</h3>
+          <p>
+            As reservas são efetuadas através do nosso sistema de calendário integrado com Google Calendar. Ao submeter uma reserva, você envia um pedido que está sujeito a confirmação pelo proprietário.
+          </p>
+
+          <h3 className="text-xl font-semibold mt-6 mb-3">2.2 Confirmação</h3>
+          <p>
+            A reserva só é considerada confirmada após aceitação expressa pelo proprietário através do Google Calendar. Receberá uma notificação por email quando a sua reserva for confirmada.
+          </p>
+
+          <h3 className="text-xl font-semibold mt-6 mb-3">2.3 Pagamento</h3>
+          <p>
+            O pagamento da estadia deverá ser efetuado conforme acordado no momento da confirmação da reserva. Aceitamos transferência bancária, MBWay e outros métodos a combinar diretamente com o proprietário.
+          </p>
+
+          <h2 className="text-2xl font-serif font-bold mt-8 mb-4">3. Política de Cancelamento</h2>
+          <ul className="list-disc pl-6 space-y-2">
+            <li><strong>Cancelamento até 30 dias antes:</strong> Reembolso total</li>
+            <li><strong>Cancelamento entre 15-29 dias antes:</strong> Reembolso de 50%</li>
+            <li><strong>Cancelamento com menos de 15 dias:</strong> Sem reembolso</li>
+          </ul>
+          <p className="mt-4">
+            Os cancelamentos devem ser comunicados por escrito para ola@recantodanatureza.pt
+          </p>
+
+          <h2 className="text-2xl font-serif font-bold mt-8 mb-4">4. Check-in e Check-out</h2>
+          <ul className="list-disc pl-6 space-y-2">
+            <li><strong>Check-in:</strong> Entre as 15:00 e as 20:00</li>
+            <li><strong>Check-out:</strong> Até às 11:00</li>
+            <li>Check-ins tardios ou check-outs antecipados podem ser acordados mediante disponibilidade</li>
+          </ul>
+
+          <h2 className="text-2xl font-serif font-bold mt-8 mb-4">5. Regras da Propriedade</h2>
+          <ul className="list-disc pl-6 space-y-2">
+            <li>É proibido fumar no interior das unidades</li>
+            <li>Animais de estimação apenas mediante autorização prévia</li>
+            <li>Respeite o sossego dos vizinhos e da natureza envolvente</li>
+            <li>Número máximo de hóspedes não pode exceder a capacidade da unidade</li>
+            <li>Festas ou eventos não são permitidos sem autorização prévia</li>
+          </ul>
+
+          <h2 className="text-2xl font-serif font-bold mt-8 mb-4">6. Responsabilidades do Hóspede</h2>
+          <p>
+            O hóspede é responsável por quaisquer danos causados à propriedade durante a sua estadia. Reservamo-nos o direito de cobrar pelos danos causados.
+          </p>
+
+          <h2 className="text-2xl font-serif font-bold mt-8 mb-4">7. Limitação de Responsabilidade</h2>
+          <p>
+            O Recanto da Natureza não se responsabiliza por perdas, danos ou lesões ocorridas durante a estadia, exceto nos casos previstos por lei.
+          </p>
+
+          <h2 className="text-2xl font-serif font-bold mt-8 mb-4">8. Alterações aos Termos</h2>
+          <p>
+            Reservamo-nos o direito de alterar estes Termos e Condições a qualquer momento. As alterações entrarão em vigor imediatamente após a sua publicação no website.
+          </p>
+
+          <h2 className="text-2xl font-serif font-bold mt-8 mb-4">9. Lei Aplicável</h2>
+          <p>
+            Estes Termos e Condições são regidos pela lei portuguesa. Qualquer litígio será submetido aos tribunais competentes de Portugal.
+          </p>
+
+          <h2 className="text-2xl font-serif font-bold mt-8 mb-4">10. Contacto</h2>
+          <p>
+            Para questões relacionadas com estes Termos e Condições, contacte-nos:
+          </p>
+          <ul className="list-none space-y-2 mt-4">
+            <li><strong>Email:</strong> ola@recantodanatureza.pt</li>
+            <li><strong>Telefone:</strong> +351 912 345 678</li>
+            <li><strong>Morada:</strong> Estrada Nacional 2, km 45, Serra da Lousã, Portugal</li>
+          </ul>
+        </div>
+
+        <div className="mt-12 pt-8 border-t border-stone-200">
+          <button
+            onClick={() => handleNavClick(Tab.HOME)}
+            className="text-brand-600 hover:text-brand-700 font-medium flex items-center gap-2"
+          >
+            <ArrowLeft size={20} /> Voltar à Página Inicial
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderPrivacy = () => (
+    <div className="pt-24 pb-16 px-4 max-w-4xl mx-auto animate-fade-in">
+      <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12 border border-stone-100">
+        <h1 className="text-4xl font-serif font-bold text-stone-800 mb-8">Política de Privacidade</h1>
+        <div className="prose prose-stone max-w-none">
+          <p className="text-sm text-stone-500 mb-8">Última atualização: 9 de Dezembro de 2025</p>
+
+          <p className="text-lg text-stone-700 mb-6">
+            O Recanto da Natureza respeita a sua privacidade e está comprometido em proteger os seus dados pessoais. Esta política descreve como recolhemos, utilizamos e protegemos as suas informações.
+          </p>
+
+          <h2 className="text-2xl font-serif font-bold mt-8 mb-4">1. Responsável pelo Tratamento de Dados</h2>
+          <p>
+            <strong>Recanto da Natureza</strong><br />
+            Estrada Nacional 2, km 45<br />
+            Serra da Lousã, Portugal<br />
+            Email: ola@recantodanatureza.pt<br />
+            Telefone: +351 912 345 678
+          </p>
+
+          <h2 className="text-2xl font-serif font-bold mt-8 mb-4">2. Dados que Recolhemos</h2>
+          <h3 className="text-xl font-semibold mt-6 mb-3">2.1 Dados Fornecidos por Si</h3>
+          <ul className="list-disc pl-6 space-y-2">
+            <li><strong>Informações de Reserva:</strong> Nome, email, telefone, datas de estadia, número de hóspedes</li>
+            <li><strong>Informações de Pagamento:</strong> Detalhes necessários para processar o pagamento (não armazenamos dados completos de cartão de crédito)</li>
+            <li><strong>Comunicações:</strong> Mensagens enviadas através do chat ou email</li>
+          </ul>
+
+          <h3 className="text-xl font-semibold mt-6 mb-3">2.2 Dados Recolhidos Automaticamente</h3>
+          <ul className="list-disc pl-6 space-y-2">
+            <li><strong>Dados de Navegação:</strong> Endereço IP, browser, sistema operativo</li>
+            <li><strong>Cookies:</strong> Utilizamos cookies essenciais para o funcionamento do site</li>
+            <li><strong>Interações com IA:</strong> Conversas com o chat bot "Flora" para melhorar o serviço</li>
+          </ul>
+
+          <h2 className="text-2xl font-serif font-bold mt-8 mb-4">3. Como Utilizamos os Seus Dados</h2>
+          <ul className="list-disc pl-6 space-y-2">
+            <li>Processar e confirmar reservas</li>
+            <li>Comunicar informações sobre a sua estadia</li>
+            <li>Enviar confirmações e lembretes por email</li>
+            <li>Responder às suas questões e pedidos</li>
+            <li>Melhorar os nossos serviços e website</li>
+            <li>Cumprir obrigações legais</li>
+          </ul>
+
+          <h2 className="text-2xl font-serif font-bold mt-8 mb-4">4. Base Legal para o Tratamento</h2>
+          <p>
+            Processamos os seus dados pessoais com base em:
+          </p>
+          <ul className="list-disc pl-6 space-y-2">
+            <li><strong>Execução do Contrato:</strong> Para processar e gerir a sua reserva</li>
+            <li><strong>Consentimento:</strong> Para comunicações de marketing (pode retirar a qualquer momento)</li>
+            <li><strong>Interesses Legítimos:</strong> Para melhorar os nossos serviços</li>
+            <li><strong>Obrigações Legais:</strong> Para cumprimento fiscal e legal</li>
+          </ul>
+
+          <h2 className="text-2xl font-serif font-bold mt-8 mb-4">5. Partilha de Dados</h2>
+          <p>
+            Os seus dados podem ser partilhados com:
+          </p>
+          <ul className="list-disc pl-6 space-y-2">
+            <li><strong>Google (Firebase, Calendar, Maps, Gemini AI):</strong> Para funcionalidades do website</li>
+            <li><strong>Processadores de Pagamento:</strong> Para processar transações</li>
+            <li><strong>Autoridades:</strong> Quando legalmente obrigatório</li>
+          </ul>
+          <p className="mt-4">
+            <strong>Nunca</strong> vendemos os seus dados a terceiros para fins de marketing.
+          </p>
+
+          <h2 className="text-2xl font-serif font-bold mt-8 mb-4">6. Transferências Internacionais</h2>
+          <p>
+            Alguns dos nossos prestadores de serviços (como Google) podem processar dados fora da União Europeia. Garantimos que existem salvaguardas adequadas em vigor, como Cláusulas Contratuais-Tipo aprovadas pela Comissão Europeia.
+          </p>
+
+          <h2 className="text-2xl font-serif font-bold mt-8 mb-4">7. Período de Conservação</h2>
+          <ul className="list-disc pl-6 space-y-2">
+            <li><strong>Dados de Reserva:</strong> 7 anos (obrigações fiscais)</li>
+            <li><strong>Comunicações de Marketing:</strong> Até retirar o consentimento</li>
+            <li><strong>Dados de Navegação:</strong> Máximo de 12 meses</li>
+          </ul>
+
+          <h2 className="text-2xl font-serif font-bold mt-8 mb-4">8. Os Seus Direitos (RGPD)</h2>
+          <p>
+            De acordo com o Regulamento Geral sobre a Proteção de Dados, tem o direito de:
+          </p>
+          <ul className="list-disc pl-6 space-y-2">
+            <li><strong>Acesso:</strong> Obter cópia dos seus dados pessoais</li>
+            <li><strong>Retificação:</strong> Corrigir dados incorretos ou incompletos</li>
+            <li><strong>Apagamento:</strong> Solicitar a eliminação dos seus dados ("direito a ser esquecido")</li>
+            <li><strong>Limitação:</strong> Restringir o tratamento dos seus dados</li>
+            <li><strong>Portabilidade:</strong> Receber os seus dados em formato estruturado</li>
+            <li><strong>Oposição:</strong> Opor-se ao tratamento dos seus dados</li>
+            <li><strong>Retirar Consentimento:</strong> A qualquer momento, sem afetar a licitude do tratamento anterior</li>
+          </ul>
+          <p className="mt-4">
+            Para exercer estes direitos, contacte-nos: <strong>ola@recantodanatureza.pt</strong>
+          </p>
+
+          <h2 className="text-2xl font-serif font-bold mt-8 mb-4">9. Cookies</h2>
+          <p>
+            Utilizamos cookies essenciais para o funcionamento do website. Não utilizamos cookies de tracking ou publicidade de terceiros. Pode configurar o seu browser para bloquear cookies, mas isso pode afetar a funcionalidade do site.
+          </p>
+
+          <h2 className="text-2xl font-serif font-bold mt-8 mb-4">10. Segurança</h2>
+          <p>
+            Implementamos medidas técnicas e organizativas adequadas para proteger os seus dados contra acesso não autorizado, perda ou destruição, incluindo:
+          </p>
+          <ul className="list-disc pl-6 space-y-2">
+            <li>Encriptação SSL/TLS</li>
+            <li>Firewalls e sistemas de segurança</li>
+            <li>Acesso restrito aos dados pessoais</li>
+            <li>Formação de pessoal sobre proteção de dados</li>
+          </ul>
+
+          <h2 className="text-2xl font-serif font-bold mt-8 mb-4">11. Reclamações</h2>
+          <p>
+            Se considera que os seus direitos foram violados, pode apresentar reclamação à Comissão Nacional de Proteção de Dados (CNPD):
+          </p>
+          <ul className="list-none space-y-2 mt-4">
+            <li><strong>Website:</strong> <a href="https://www.cnpd.pt" target="_blank" rel="noreferrer" className="text-brand-600 underline">www.cnpd.pt</a></li>
+            <li><strong>Email:</strong> geral@cnpd.pt</li>
+            <li><strong>Morada:</strong> Av. D. Carlos I, 134, 1º, 1200-651 Lisboa</li>
+          </ul>
+
+          <h2 className="text-2xl font-serif font-bold mt-8 mb-4">12. Alterações a esta Política</h2>
+          <p>
+            Podemos atualizar esta Política de Privacidade periodicamente. Notificaremos sobre alterações significativas através do website ou por email.
+          </p>
+
+          <h2 className="text-2xl font-serif font-bold mt-8 mb-4">13. Contacto</h2>
+          <p>
+            Para questões sobre esta Política de Privacidade ou sobre os seus dados pessoais:
+          </p>
+          <ul className="list-none space-y-2 mt-4">
+            <li><strong>Email:</strong> ola@recantodanatureza.pt</li>
+            <li><strong>Telefone:</strong> +351 912 345 678</li>
+            <li><strong>Morada:</strong> Estrada Nacional 2, km 45, Serra da Lousã, Portugal</li>
+          </ul>
+        </div>
+
+        <div className="mt-12 pt-8 border-t border-stone-200">
+          <button
+            onClick={() => handleNavClick(Tab.HOME)}
+            className="text-brand-600 hover:text-brand-700 font-medium flex items-center gap-2"
+          >
+            <ArrowLeft size={20} /> Voltar à Página Inicial
+          </button>
         </div>
       </div>
     </div>
