@@ -25,8 +25,9 @@ export const auth = getAuth(app);
 
 // Connect to emulators if in development mode
 const isDevelopment = import.meta.env.MODE === 'development' || window.location.hostname === 'localhost';
+const useEmulators = import.meta.env.VITE_USE_FIREBASE_EMULATORS === 'true';
 
-if (isDevelopment) {
+if (isDevelopment && useEmulators) {
   console.log('🔧 Connecting to Firebase Emulators...');
 
   try {
@@ -45,6 +46,9 @@ if (isDevelopment) {
     console.warn('⚠️ Error connecting to emulators:', error);
     console.warn('Make sure emulators are running: firebase emulators:start');
   }
+} else if (isDevelopment) {
+  console.log('🎭 Running in development mode WITHOUT Firebase Emulators');
+  console.log('📦 Using MOCK DATA for bookings');
 }
 
 export default app;

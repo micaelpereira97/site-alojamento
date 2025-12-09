@@ -89,10 +89,12 @@ export function useAdminBookings(): UseAdminBookingsReturn {
 
     // 🎭 MOCK DATA para desenvolvimento/teste (quando Firebase não está disponível)
     const useMockData = !import.meta.env.VITE_FIREBASE_PROJECT_ID ||
-                        import.meta.env.VITE_USE_MOCK_DATA === 'true';
+                        import.meta.env.VITE_USE_MOCK_DATA === 'true' ||
+                        import.meta.env.VITE_USE_FIREBASE_EMULATORS !== 'true';
 
     if (useMockData) {
       console.log('🎭 Usando MOCK DATA para desenvolvimento');
+      console.log('📋 Firebase emulators are not enabled, using mock bookings instead');
 
       // Simular delay de rede
       setTimeout(() => {
@@ -275,7 +277,8 @@ export function useAdminBookings(): UseAdminBookingsReturn {
     status: Booking['status']
   ): Promise<void> => {
     const useMockData = !import.meta.env.VITE_FIREBASE_PROJECT_ID ||
-                        import.meta.env.VITE_USE_MOCK_DATA === 'true';
+                        import.meta.env.VITE_USE_MOCK_DATA === 'true' ||
+                        import.meta.env.VITE_USE_FIREBASE_EMULATORS !== 'true';
 
     if (useMockData) {
       // 🎭 MOCK: Simular atualização de status

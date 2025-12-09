@@ -6,6 +6,7 @@ import { BookingCalendar } from './components/BookingCalendar';
 import { ChatWidget } from './components/ChatWidget';
 import { GoogleMap } from './components/GoogleMap';
 import { AdminDashboard } from './components/AdminDashboard';
+import { AdminLogin } from './components/AdminLogin';
 import { MapPin, Phone, Mail, Instagram, Facebook, Menu, X, CheckCircle, Calendar as CalendarIcon, Leaf, ExternalLink, Settings, ShieldCheck, Info, Coffee, Sparkles, Bike, HeartHandshake, BedDouble, Bath, Users, Maximize, ArrowRight, ArrowLeft } from 'lucide-react';
 import { format } from 'date-fns';
 import { pt } from 'date-fns/locale';
@@ -19,6 +20,7 @@ const App: React.FC = () => {
   const [showBookingModal, setShowBookingModal] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showAdminModal, setShowAdminModal] = useState(false);
+  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
   const [lightboxImage, setLightboxImage] = useState<string | null>(null);
 
   // --- Handlers ---
@@ -918,57 +920,34 @@ const App: React.FC = () => {
 
       {/* Admin Modal */}
       {showAdminModal && (
-        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 relative">
-            <button 
-              onClick={() => setShowAdminModal(false)}
-              className="absolute top-4 right-4 p-2 hover:bg-stone-100 rounded-full transition"
-            >
-              <X size={20} />
-            </button>
-            
-            <div className="flex items-center gap-3 mb-6">
-              <div className="bg-brand-100 p-3 rounded-full text-brand-700">
-                <ShieldCheck size={24} />
-              </div>
-              <div>
-                <h3 className="text-xl font-bold text-stone-800">Área do Proprietário</h3>
-                <p className="text-sm text-stone-500">Gestão de Reservas</p>
-              </div>
-            </div>
-
-            <div className="space-y-6">
-              <div className="bg-blue-50 border border-blue-100 rounded-lg p-4">
-                <h4 className="flex items-center gap-2 font-bold text-blue-800 text-sm mb-2">
-                  <Info size={16} /> Como Aceitar Reservas
-                </h4>
-                <ol className="text-sm text-blue-800/80 space-y-2 list-decimal list-inside">
-                  <li>O cliente envia um pedido de reserva.</li>
-                  <li>Você recebe um <strong>email</strong> ou notificação no Google Calendar.</li>
-                  <li>Abra o evento no seu calendário.</li>
-                  <li>Clique em <strong>"Sim" (Aceitar)</strong> no convite.</li>
-                  <li>A data ficará automaticamente bloqueada no site.</li>
-                </ol>
-              </div>
-
-              <div className="space-y-3">
-                <p className="text-sm font-bold text-stone-700">Acesso Rápido aos Calendários:</p>
-                <a 
-                  href="https://calendar.google.com/calendar/r" 
-                  target="_blank" 
-                  rel="noreferrer"
-                  className="flex items-center justify-between p-3 bg-stone-50 hover:bg-stone-100 rounded-lg border border-stone-200 transition group"
+        <div className="fixed inset-0 z-[60] bg-black/80 backdrop-blur-sm animate-fade-in">
+          <div className="h-full overflow-auto">
+            <div className="min-h-full flex items-start justify-center p-4 pt-8">
+              <div className="bg-white rounded-2xl shadow-2xl w-full max-w-7xl relative">
+                <button
+                  onClick={() => {
+                    setShowAdminModal(false);
+                    setIsAdminAuthenticated(false);
+                  }}
+                  className="absolute top-4 right-4 z-10 p-2 hover:bg-stone-100 rounded-full transition"
                 >
-                  <span className="flex items-center gap-2 text-stone-700 font-medium">
-                    <CalendarIcon size={16} className="text-brand-600" />
-                    Abrir Google Calendar
-                  </span>
-                  <ExternalLink size={16} className="text-stone-400 group-hover:text-stone-600" />
-                </a>
-              </div>
-              
-              <div className="text-xs text-stone-400 text-center pt-2 border-t border-stone-100">
-                Dica: Verifique se as notificações de email estão ativas nas definições de cada calendário.
+                  <X size={20} />
+                </button>
+
+                {!isAdminAuthenticated ? (
+                  <AdminLogin
+                    onLoginSuccess={() => setIsAdminAuthenticated(true)}
+                    onClose={() => {
+                      setShowAdminModal(false);
+                      setIsAdminAuthenticated(false);
+                    }}
+                  />
+                ) : (
+                  <AdminDashboard onClose={() => {
+                    setShowAdminModal(false);
+                    setIsAdminAuthenticated(false);
+                  }} />
+                )}
               </div>
             </div>
           </div>
