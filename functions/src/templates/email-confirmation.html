@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmação de Reserva</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+        }
+        .header {
+            background: linear-gradient(135deg, #4a8747 0%, #2e562c 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 600;
+        }
+        .header p {
+            margin: 10px 0 0 0;
+            opacity: 0.9;
+            font-size: 16px;
+        }
+        .content {
+            padding: 40px 30px;
+        }
+        .greeting {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #2e562c;
+        }
+        .booking-card {
+            background: #f9fafb;
+            border: 2px solid #e1efe0;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+        .booking-card h2 {
+            margin: 0 0 20px 0;
+            color: #2e562c;
+            font-size: 20px;
+            border-bottom: 2px solid #4a8747;
+            padding-bottom: 10px;
+        }
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        .info-label {
+            font-weight: 600;
+            color: #6b7280;
+        }
+        .info-value {
+            color: #111827;
+            text-align: right;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .status-pending {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+        .status-confirmed {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+        .highlight-box {
+            background: #fef9e7;
+            border-left: 4px solid #f59e0b;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .button {
+            display: inline-block;
+            padding: 14px 30px;
+            background: #4a8747;
+            color: white !important;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .button:hover {
+            background: #386c36;
+        }
+        .footer {
+            background: #f9fafb;
+            padding: 30px;
+            text-align: center;
+            color: #6b7280;
+            font-size: 14px;
+            border-top: 1px solid #e5e7eb;
+        }
+        .footer-links {
+            margin: 15px 0;
+        }
+        .footer-links a {
+            color: #4a8747;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        .contact-info {
+            margin-top: 20px;
+            line-height: 1.8;
+        }
+        @media only screen and (max-width: 600px) {
+            .content {
+                padding: 30px 20px;
+            }
+            .booking-card {
+                padding: 20px;
+            }
+            .info-row {
+                flex-direction: column;
+            }
+            .info-value {
+                text-align: left;
+                margin-top: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🌿 Recanto da Natureza</h1>
+            <p>Confirmação de Pedido de Reserva</p>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <p class="greeting">Olá {{guestName}},</p>
+
+            <p>Obrigado por escolher o Recanto da Natureza! Recebemos o seu pedido de reserva e estamos entusiasmados por o receber.</p>
+
+            <!-- Status Badge -->
+            <div style="margin: 25px 0; text-align: center;">
+                <span class="status-badge {{statusClass}}">{{status}}</span>
+            </div>
+
+            <!-- Booking Details Card -->
+            <div class="booking-card">
+                <h2>📋 Detalhes da Reserva</h2>
+
+                <div class="info-row">
+                    <span class="info-label">Código de Reserva:</span>
+                    <span class="info-value"><strong>{{confirmationCode}}</strong></span>
+                </div>
+
+                <div class="info-row">
+                    <span class="info-label">Unidade:</span>
+                    <span class="info-value">{{unitName}}</span>
+                </div>
+
+                <div class="info-row">
+                    <span class="info-label">Check-in:</span>
+                    <span class="info-value">{{checkIn}} às 15:00</span>
+                </div>
+
+                <div class="info-row">
+                    <span class="info-label">Check-out:</span>
+                    <span class="info-value">{{checkOut}} até às 11:00</span>
+                </div>
+
+                <div class="info-row">
+                    <span class="info-label">Noites:</span>
+                    <span class="info-value">{{nights}}</span>
+                </div>
+
+                <div class="info-row">
+                    <span class="info-label">Hóspedes:</span>
+                    <span class="info-value">{{guests}}</span>
+                </div>
+
+                <div class="info-row" style="border-top: 2px solid #4a8747; margin-top: 15px; padding-top: 15px;">
+                    <span class="info-label" style="font-size: 18px;">Total:</span>
+                    <span class="info-value" style="font-size: 22px; color: #4a8747;"><strong>{{totalPrice}}€</strong></span>
+                </div>
+            </div>
+
+            <!-- Important Notice -->
+            <div class="highlight-box">
+                <strong>⏳ Aguardando Confirmação</strong><br>
+                O seu pedido de reserva foi submetido com sucesso. O proprietário irá rever o seu pedido e entrar em contacto consigo em breve (normalmente em 24 horas) para confirmar a disponibilidade e detalhes de pagamento.
+            </div>
+
+            <!-- Next Steps -->
+            <h3 style="color: #2e562c; margin-top: 30px;">📌 Próximos Passos:</h3>
+            <ol style="line-height: 2;">
+                <li>Aguarde a confirmação do proprietário por email</li>
+                <li>Receberá instruções de pagamento após confirmação</li>
+                <li>Após pagamento, receberá informações de acesso</li>
+            </ol>
+
+            <!-- Cancellation Policy -->
+            <h3 style="color: #2e562c; margin-top: 30px;">🔄 Política de Cancelamento:</h3>
+            <ul style="line-height: 2;">
+                <li><strong>Até 30 dias antes:</strong> Reembolso total</li>
+                <li><strong>15-29 dias antes:</strong> Reembolso de 50%</li>
+                <li><strong>Menos de 15 dias:</strong> Sem reembolso</li>
+            </ul>
+
+            <!-- CTA Button -->
+            <div style="text-align: center; margin: 35px 0;">
+                <a href="{{websiteUrl}}" class="button">Visitar Website</a>
+            </div>
+
+            <p>Se tiver alguma questão, não hesite em contactar-nos.</p>
+
+            <p style="margin-top: 30px;">
+                Atenciosamente,<br>
+                <strong>Equipa Recanto da Natureza</strong>
+            </p>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="contact-info">
+                <strong>Recanto da Natureza</strong><br>
+                📍 Estrada Nacional 2, km 45, Serra da Lousã, Portugal<br>
+                📧 <a href="mailto:ola@recantodanatureza.pt">ola@recantodanatureza.pt</a><br>
+                📞 +351 912 345 678
+            </div>
+
+            <div class="footer-links">
+                <a href="{{websiteUrl}}/terms">Termos & Condições</a> |
+                <a href="{{websiteUrl}}/privacy">Política de Privacidade</a>
+            </div>
+
+            <p style="margin-top: 20px; font-size: 12px; color: #9ca3af;">
+                Este email foi enviado para {{guestEmail}} porque solicitou uma reserva no nosso website.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

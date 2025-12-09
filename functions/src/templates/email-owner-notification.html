@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova Reserva Recebida</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+        }
+        .header {
+            background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 600;
+        }
+        .header p {
+            margin: 10px 0 0 0;
+            opacity: 0.9;
+            font-size: 16px;
+        }
+        .content {
+            padding: 40px 30px;
+        }
+        .alert-box {
+            background: #dbeafe;
+            border-left: 4px solid #2563eb;
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 4px;
+        }
+        .alert-box strong {
+            color: #1e40af;
+            font-size: 16px;
+        }
+        .booking-card {
+            background: #f9fafb;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+        .booking-card h2 {
+            margin: 0 0 20px 0;
+            color: #1e40af;
+            font-size: 20px;
+            border-bottom: 2px solid #2563eb;
+            padding-bottom: 10px;
+        }
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        .info-label {
+            font-weight: 600;
+            color: #6b7280;
+        }
+        .info-value {
+            color: #111827;
+            text-align: right;
+        }
+        .action-buttons {
+            margin: 30px 0;
+            text-align: center;
+        }
+        .button {
+            display: inline-block;
+            padding: 14px 30px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            margin: 10px 5px;
+        }
+        .button-primary {
+            background: #10b981;
+            color: white !important;
+        }
+        .button-secondary {
+            background: #6b7280;
+            color: white !important;
+        }
+        .button-calendar {
+            background: #2563eb;
+            color: white !important;
+        }
+        .guest-info {
+            background: #fef3c7;
+            border: 1px solid #fbbf24;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .guest-info h3 {
+            margin: 0 0 15px 0;
+            color: #92400e;
+        }
+        .footer {
+            background: #f9fafb;
+            padding: 30px;
+            text-align: center;
+            color: #6b7280;
+            font-size: 14px;
+            border-top: 1px solid #e5e7eb;
+        }
+        @media only screen and (max-width: 600px) {
+            .content {
+                padding: 30px 20px;
+            }
+            .button {
+                display: block;
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🔔 Nova Reserva Recebida</h1>
+            <p>Gestão de Reservas - Recanto da Natureza</p>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <!-- Alert Box -->
+            <div class="alert-box">
+                <strong>⚡ Ação Necessária</strong><br>
+                Recebeu um novo pedido de reserva que requer a sua aprovação.
+            </div>
+
+            <!-- Booking Details Card -->
+            <div class="booking-card">
+                <h2>📋 Detalhes da Reserva</h2>
+
+                <div class="info-row">
+                    <span class="info-label">Código de Reserva:</span>
+                    <span class="info-value"><strong>{{confirmationCode}}</strong></span>
+                </div>
+
+                <div class="info-row">
+                    <span class="info-label">Unidade:</span>
+                    <span class="info-value">{{unitName}}</span>
+                </div>
+
+                <div class="info-row">
+                    <span class="info-label">Check-in:</span>
+                    <span class="info-value">{{checkIn}}</span>
+                </div>
+
+                <div class="info-row">
+                    <span class="info-label">Check-out:</span>
+                    <span class="info-value">{{checkOut}}</span>
+                </div>
+
+                <div class="info-row">
+                    <span class="info-label">Noites:</span>
+                    <span class="info-value">{{nights}}</span>
+                </div>
+
+                <div class="info-row">
+                    <span class="info-label">Hóspedes:</span>
+                    <span class="info-value">{{guests}}</span>
+                </div>
+
+                <div class="info-row" style="border-top: 2px solid #2563eb; margin-top: 15px; padding-top: 15px;">
+                    <span class="info-label" style="font-size: 18px;">Valor Total:</span>
+                    <span class="info-value" style="font-size: 22px; color: #10b981;"><strong>{{totalPrice}}€</strong></span>
+                </div>
+            </div>
+
+            <!-- Guest Information -->
+            <div class="guest-info">
+                <h3>👤 Informações do Hóspede</h3>
+
+                <div style="margin: 10px 0;">
+                    <strong>Nome:</strong> {{guestName}}
+                </div>
+
+                <div style="margin: 10px 0;">
+                    <strong>Email:</strong> <a href="mailto:{{guestEmail}}">{{guestEmail}}</a>
+                </div>
+
+                <div style="margin: 10px 0;">
+                    <strong>Telefone:</strong> <a href="tel:{{guestPhone}}">{{guestPhone}}</a>
+                </div>
+
+                {{#if notes}}
+                <div style="margin: 15px 0; padding-top: 15px; border-top: 1px solid #fbbf24;">
+                    <strong>Notas/Pedidos Especiais:</strong><br>
+                    <em>{{notes}}</em>
+                </div>
+                {{/if}}
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <h3 style="color: #1e40af;">📅 Próximas Ações:</h3>
+
+                <p style="margin: 20px 0; color: #6b7280;">
+                    Para confirmar ou gerir esta reserva, aceda ao Google Calendar:
+                </p>
+
+                <a href="https://calendar.google.com/calendar/r" class="button button-calendar">
+                    📅 Abrir Google Calendar
+                </a>
+
+                <p style="margin: 20px 0; font-size: 14px; color: #6b7280;">
+                    Ou contacte o hóspede directamente:
+                </p>
+
+                <a href="mailto:{{guestEmail}}?subject=Reserva {{confirmationCode}} - Recanto da Natureza" class="button button-primary">
+                    ✉️ Enviar Email
+                </a>
+
+                <a href="tel:{{guestPhone}}" class="button button-secondary">
+                    📞 Ligar
+                </a>
+            </div>
+
+            <!-- Instructions -->
+            <div style="background: #f3f4f6; padding: 20px; border-radius: 8px; margin: 25px 0;">
+                <h3 style="color: #374151; margin-top: 0;">📝 Como Confirmar a Reserva:</h3>
+                <ol style="line-height: 2; color: #4b5563;">
+                    <li>Abra o <strong>Google Calendar</strong></li>
+                    <li>Encontre o evento para <strong>{{unitName}}</strong> nas datas <strong>{{checkIn}} - {{checkOut}}</strong></li>
+                    <li>Clique no evento e verifique os detalhes</li>
+                    <li>Aceite o convite para <strong>confirmar</strong> a reserva</li>
+                    <li>Contacte o hóspede para combinar detalhes de pagamento</li>
+                </ol>
+            </div>
+
+            <!-- Important Note -->
+            <div style="background: #fef2f2; border: 1px solid #fca5a5; padding: 15px; border-radius: 4px; margin: 20px 0;">
+                <strong style="color: #991b1b;">⚠️ Importante:</strong><br>
+                <span style="color: #7f1d1d;">O hóspede está a aguardar confirmação. Por favor, responda em até 24 horas para garantir uma boa experiência.</span>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p><strong>Recanto da Natureza - Área do Proprietário</strong></p>
+            <p style="margin-top: 15px; font-size: 12px; color: #9ca3af;">
+                Este é um email automático de notificação de reserva.<br>
+                Enviado em {{sentDate}}
+            </p>
+        </div>
+    </div>
+</body>
+</html>
