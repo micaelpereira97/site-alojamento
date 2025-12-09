@@ -5,6 +5,7 @@ import { UnitCard } from './components/UnitCard';
 import { BookingCalendar } from './components/BookingCalendar';
 import { ChatWidget } from './components/ChatWidget';
 import { GoogleMap } from './components/GoogleMap';
+import { AdminDashboard } from './components/AdminDashboard';
 import { MapPin, Phone, Mail, Instagram, Facebook, Menu, X, CheckCircle, Calendar as CalendarIcon, Leaf, ExternalLink, Settings, ShieldCheck, Info, Coffee, Sparkles, Bike, HeartHandshake, BedDouble, Bath, Users, Maximize, ArrowRight, ArrowLeft } from 'lucide-react';
 import { format } from 'date-fns';
 import { pt } from 'date-fns/locale';
