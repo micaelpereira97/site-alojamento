@@ -1,0 +1,406 @@
+# Checklist de Desenvolvimento - Recanto da Natureza
+
+**Projeto:** Site de Alojamento Local
+**Última Atualização:** 9 de Dezembro de 2025
+**Estado:** Em Desenvolvimento
+
+---
+
+## ✅ Funcionalidades Implementadas
+
+### 🎨 Frontend (React + TypeScript + Vite)
+
+- [x] **Estrutura Base da Aplicação**
+  - [x] Configuração React 19 + TypeScript
+  - [x] Vite como bundler
+  - [x] Sistema de routing por tabs (Home, Alojamento, Atividades, Serviços, Localização)
+  - [x] Design responsivo (mobile-first)
+  - [x] Menu de navegação fixo com backdrop blur
+  - [x] Menu mobile com animações
+
+- [x] **Página Inicial (Home)**
+  - [x] Hero section com imagem de fundo e CTA
+  - [x] Secção "Sobre" com grid de imagens
+  - [x] Badges informativos (100% Sustentável, Localização Privilegiada)
+  - [x] Design elegante com fonte serif
+
+- [x] **Página de Alojamento**
+  - [x] 3 Unidades configuradas (Casa da Serra, Loft do Rio, Cabana da Floresta)
+  - [x] Cards de apresentação com imagem, descrição e preço
+  - [x] Sistema de filtragem e apresentação
+  - [x] Banner elegante com gradiente verde
+
+- [x] **Sistema de Reservas**
+  - [x] Modal de reserva com 2 colunas (detalhes + calendário)
+  - [x] Galeria de imagens por unidade (com lightbox)
+  - [x] Calendário interativo para seleção de datas
+  - [x] Cálculo automático do total da estadia
+  - [x] Integração com Google Calendar (criação de evento/convite)
+  - [x] IDs de calendário Google configurados por unidade
+  - [x] Detalhes da unidade (capacidade, quartos, WC, comodidades)
+
+- [x] **Página de Atividades**
+  - [x] 3 Atividades configuradas (Trilhos, Praia Fluvial, Vila Histórica)
+  - [x] Layout alternado com imagens e descrições
+  - [x] Badges de distância
+
+- [x] **Página de Serviços**
+  - [x] 4 Serviços exclusivos (Pequeno-Almoço, Limpeza, Bicicletas, Massagens)
+  - [x] Vista lista com cards clicáveis
+  - [x] Páginas de detalhe por serviço (com hero image e galeria)
+  - [x] Sistema de navegação entre lista e detalhe
+  - [x] Ícones personalizados por serviço
+
+- [x] **Página de Localização**
+  - [x] Informações de contacto (morada, telefone, email)
+  - [x] Horários de check-in/check-out
+  - [x] Imagem de mapa (placeholder)
+  - [x] Design com 2 colunas (info + mapa)
+
+- [x] **Chat Widget IA (Flora)**
+  - [x] Widget flutuante no canto inferior direito
+  - [x] Integração com Google Gemini AI (gemini-2.5-flash)
+  - [x] Contexto completo do alojamento (unidades, serviços, atividades)
+  - [x] Interface de chat com histórico
+  - [x] Animações de entrada/saída
+  - [x] Loading states
+  - [x] Tom amigável e em Português
+
+- [x] **Componentes UI**
+  - [x] UnitCard (cartão de unidade)
+  - [x] BookingCalendar (calendário de reservas)
+  - [x] ChatWidget (widget de chat IA)
+  - [x] Lightbox para imagens (fullscreen)
+  - [x] Modal de Admin/Proprietário
+  - [x] Toast de confirmação
+
+- [x] **Footer**
+  - [x] Links rápidos
+  - [x] Informações legais (links placeholder)
+  - [x] Redes sociais (links placeholder)
+  - [x] Botão "Área do Proprietário"
+
+- [x] **Sistema de Temas e Design**
+  - [x] Paleta de cores verde (brand-*) personalizada
+  - [x] Animações CSS personalizadas (fade-in, fade-in-up, etc.)
+  - [x] Ícones Lucide React
+  - [x] Tipografia elegante (serif para títulos)
+  - [x] Efeitos hover e transições
+
+### 🔧 Backend (Firebase)
+
+- [x] **Firebase Functions (Node.js + TypeScript)**
+  - [x] `getUnits` - Obter todas as unidades ativas
+  - [x] `checkAvailability` - Verificar disponibilidade por unidade
+  - [x] `createBooking` - Criar nova reserva
+  - [x] `chatWithAI` - Endpoint para chat com IA
+
+- [x] **Serviços Backend**
+  - [x] `calendar.service.ts` - Integração Google Calendar API
+    - [x] getEvents() - Buscar eventos do calendário
+    - [x] createEvent() - Criar evento de reserva
+  - [x] `gemini.service.ts` - Integração Gemini AI
+    - [x] chat() - Processar mensagens de chat
+  - [x] `email.service.ts` - Envio de emails
+    - [x] sendBookingConfirmation() - Email para hóspede
+    - [x] notifyOwner() - Notificação para proprietário
+
+- [x] **Validação de Dados**
+  - [x] Schemas Zod para validação
+    - [x] bookingSchema
+    - [x] chatMessageSchema
+    - [x] availabilitySchema
+
+- [x] **Firestore Database**
+  - [x] Coleção `units` (unidades de alojamento)
+  - [x] Coleção `bookings` (reservas)
+  - [x] Coleção `blockedDates` (datas bloqueadas)
+  - [x] Coleção `chatSessions` (sessões de chat)
+
+- [x] **Configurações Firebase**
+  - [x] `firebase.json` (configuração de hosting e functions)
+  - [x] `firestore.rules` (regras de segurança)
+  - [x] `firestore.indexes.json` (índices)
+  - [x] Estrutura de pastas organizada
+
+### 📚 Documentação
+
+- [x] **Documentação Técnica**
+  - [x] `README.md` (instruções de setup)
+  - [x] `docs/architecture.md` (arquitetura do projeto)
+  - [x] `docs/architecture-firebase.md` (arquitetura Firebase)
+  - [x] `docs/FIREBASE_SETUP_GUIDE.md` (guia de configuração)
+
+### 🛠️ DevOps e Configuração
+
+- [x] **Gestão de Código**
+  - [x] Repositório Git inicializado
+  - [x] Commit inicial criado
+  - [x] Repositório remoto GitHub configurado
+  - [x] `.gitignore` configurado
+
+- [x] **Scripts de Utilidade**
+  - [x] `scripts/seed-firestore.ts` (popular base de dados)
+
+---
+
+## ⏳ Funcionalidades Pendentes / Em Falta
+
+### 🎯 Prioridade Alta
+
+- [ ] **Configuração de Ambiente**
+  - [ ] Criar ficheiro `.env.local` com variáveis de ambiente
+  - [ ] Configurar `GEMINI_API_KEY`
+  - [ ] Configurar credenciais Firebase (apiKey, projectId, etc.)
+  - [ ] Documentar processo de obtenção de credenciais
+
+- [ ] **Integração Google Maps**
+  - [ ] Substituir placeholder por Google Maps embed real
+  - [ ] Configurar API Key do Google Maps
+  - [ ] Adicionar marcador da localização
+  - [ ] Link "Abrir no Google Maps" funcional
+
+- [ ] **Sistema de Pagamentos**
+  - [ ] Integrar gateway de pagamento (Stripe/PayPal/MBWay)
+  - [ ] Página de checkout
+  - [ ] Confirmação de pagamento
+  - [ ] Recibos/faturas automáticas
+
+- [ ] **Páginas Legais**
+  - [ ] Página de Termos e Condições
+  - [ ] Política de Privacidade (RGPD compliant)
+  - [ ] Política de Cookies
+  - [ ] Livro de Reclamações Online
+
+### 🎯 Prioridade Média
+
+- [ ] **Dashboard do Proprietário**
+  - [ ] Autenticação/Login para proprietários
+  - [ ] Painel de gestão de reservas
+  - [ ] Calendário consolidado de todas as unidades
+  - [ ] Gestão de disponibilidade manual
+  - [ ] Gestão de preços (preços dinâmicos, descontos)
+  - [ ] Estatísticas e relatórios
+  - [ ] Gestão de conteúdo (editar unidades, serviços, etc.)
+
+- [ ] **Sistema de Autenticação**
+  - [ ] Firebase Authentication
+  - [ ] Login com Google
+  - [ ] Login com Email/Password
+  - [ ] Recuperação de password
+  - [ ] Perfil de utilizador
+
+- [ ] **Melhorias no Sistema de Reservas**
+  - [ ] Confirmação de reserva por email automático
+  - [ ] Sistema de aprovação de reservas (pending → confirmed)
+  - [ ] Cancelamento de reservas
+  - [ ] Política de cancelamento
+  - [ ] Pré-pagamento ou sinal
+  - [ ] Sincronização bidirecional com Google Calendar
+
+- [ ] **Sistema de Reviews/Avaliações**
+  - [ ] Reviews de hóspedes
+  - [ ] Sistema de classificação (estrelas)
+  - [ ] Moderação de comentários
+  - [ ] Exibir reviews nas unidades
+
+- [ ] **Notificações**
+  - [ ] Email templates profissionais
+  - [ ] Notificações push (PWA)
+  - [ ] SMS notifications (opcional)
+  - [ ] Lembretes automáticos (check-in, check-out)
+
+### 🎯 Prioridade Baixa
+
+- [ ] **Funcionalidades Adicionais**
+  - [ ] Multi-idioma (Inglês, Espanhol, Francês)
+  - [ ] Sistema de vouchers/cupons de desconto
+  - [ ] Programa de fidelização
+  - [ ] Blog/Notícias
+  - [ ] Newsletter subscription
+  - [ ] Partilha nas redes sociais
+  - [ ] Modo escuro (dark mode)
+
+- [ ] **SEO e Marketing**
+  - [ ] Meta tags otimizadas
+  - [ ] Schema.org markup (estrutured data)
+  - [ ] Sitemap XML
+  - [ ] robots.txt
+  - [ ] Open Graph tags (Facebook)
+  - [ ] Twitter Cards
+  - [ ] Google Analytics integração
+  - [ ] Facebook Pixel
+  - [ ] Hotjar ou similar (heatmaps)
+
+- [ ] **Performance e Otimização**
+  - [ ] Lazy loading de imagens
+  - [ ] Otimização de imagens (WebP, compressão)
+  - [ ] Code splitting
+  - [ ] Service Worker (PWA)
+  - [ ] Caching estratégico
+  - [ ] CDN para assets estáticos
+
+- [ ] **Upload de Conteúdo**
+  - [ ] Sistema de upload de fotos pelo proprietário
+  - [ ] Firebase Storage integração
+  - [ ] Gestão de galeria de imagens
+  - [ ] Redimensionamento automático de imagens
+
+- [ ] **Redes Sociais**
+  - [ ] Links funcionais para Instagram
+  - [ ] Links funcionais para Facebook
+  - [ ] Feed Instagram incorporado (opcional)
+  - [ ] Botões de partilha
+
+### 🧪 Testes e Qualidade
+
+- [ ] **Testes**
+  - [ ] Unit tests (Jest/Vitest)
+  - [ ] Integration tests
+  - [ ] E2E tests (Cypress/Playwright)
+  - [ ] Teste de acessibilidade (a11y)
+  - [ ] Performance testing
+  - [ ] Cross-browser testing
+
+- [ ] **CI/CD**
+  - [ ] GitHub Actions workflow
+  - [ ] Testes automáticos no PR
+  - [ ] Deploy automático para staging
+  - [ ] Deploy automático para produção
+
+- [ ] **Monitorização**
+  - [ ] Error tracking (Sentry)
+  - [ ] Performance monitoring
+  - [ ] Uptime monitoring
+  - [ ] Logs centralizados
+
+### 🔒 Segurança
+
+- [ ] **Melhorias de Segurança**
+  - [ ] Rate limiting nas APIs
+  - [ ] CAPTCHA no formulário de reserva
+  - [ ] Sanitização de inputs
+  - [ ] Content Security Policy (CSP)
+  - [ ] Audit de segurança
+  - [ ] Firestore security rules completas
+  - [ ] Backup automático da base de dados
+
+---
+
+## 🗂️ Estrutura de Ficheiros
+
+```
+recanto-da-natureza---alojamento-local/
+├── .bmad-core/              # Configurações BMAD (gestão de projeto)
+├── desenvolvimento/         # ✨ NOVA: Documentação de desenvolvimento
+│   └── CHECKLIST-PROJETO.md
+├── docs/                    # Documentação técnica
+│   ├── architecture.md
+│   ├── architecture-firebase.md
+│   └── FIREBASE_SETUP_GUIDE.md
+├── functions/               # Firebase Cloud Functions
+│   ├── src/
+│   │   ├── config/          # Configurações
+│   │   ├── services/        # Serviços (calendar, email, gemini)
+│   │   ├── types/           # TypeScript types
+│   │   ├── validators/      # Schemas de validação
+│   │   └── index.ts         # Entry point
+│   ├── package.json
+│   └── tsconfig.json
+├── scripts/                 # Scripts de utilidade
+│   └── seed-firestore.ts
+├── src/                     # Frontend source
+│   ├── hooks/               # React hooks personalizados
+│   └── lib/                 # Bibliotecas e configurações
+├── components/              # Componentes React
+│   ├── BookingCalendar.tsx
+│   ├── ChatWidget.tsx
+│   └── UnitCard.tsx
+├── App.tsx                  # Componente principal
+├── constants.ts             # Dados das unidades, serviços, atividades
+├── types.ts                 # TypeScript types
+├── index.tsx                # Entry point React
+├── index.html
+├── vite.config.ts
+├── tsconfig.json
+├── package.json
+├── firebase.json
+├── firestore.rules
+├── firestore.indexes.json
+├── .gitignore
+├── .env.example
+└── README.md
+```
+
+---
+
+## 📋 Próximos Passos Recomendados
+
+1. **Configurar Ambiente de Desenvolvimento**
+   - Criar `.env.local` com as API keys necessárias
+   - Testar integração Firebase localmente
+   - Testar chat IA com Gemini
+
+2. **Deploy Inicial**
+   - Fazer deploy do site para Firebase Hosting
+   - Fazer deploy das Functions
+   - Testar em produção
+
+3. **Completar Integrações Críticas**
+   - Google Maps real
+   - Sistema de pagamentos
+   - Email templates profissionais
+
+4. **Dashboard do Proprietário**
+   - Implementar autenticação
+   - Criar painel de gestão de reservas
+   - Sistema de aprovação de reservas
+
+5. **Melhorias de UX**
+   - Testes com utilizadores reais
+   - Ajustes de design baseados em feedback
+   - Otimização mobile
+
+6. **SEO e Marketing**
+   - Otimizar para motores de busca
+   - Configurar Google Analytics
+   - Criar conteúdo para blog (opcional)
+
+---
+
+## 🐛 Bugs Conhecidos / Issues
+
+- [ ] Chat IA precisa de API key configurada (actualmente não funcional)
+- [ ] Links de redes sociais são placeholders (#)
+- [ ] Mapa é uma imagem estática (não interativo)
+- [ ] Páginas legais são apenas links (não implementadas)
+- [ ] Calendário não sincroniza com Google Calendar em tempo real
+
+---
+
+## 💡 Notas de Desenvolvimento
+
+### Tecnologias Utilizadas
+- **Frontend:** React 19, TypeScript, Vite, Tailwind-style CSS
+- **Backend:** Firebase (Functions, Firestore, Hosting)
+- **IA:** Google Gemini AI (gemini-2.5-flash)
+- **Calendário:** Google Calendar API
+- **Ícones:** Lucide React
+- **Validação:** Zod
+- **Date Handling:** date-fns
+
+### Convenções de Código
+- Componentes React em PascalCase
+- Ficheiros TypeScript com extensão `.ts` ou `.tsx`
+- Uso de hooks funcionais (sem classes)
+- CSS inline com Tailwind-style classes
+- Tipagem forte com TypeScript
+
+### Contactos de Desenvolvimento
+- **Repositório GitHub:** https://github.com/micaelpereira97/site-alojamento
+- **Developer:** Micael Pereira (mica.orlando@hotmail.com)
+
+---
+
+**Última revisão:** 9 de Dezembro de 2025
+**Versão:** 0.1.0 (Alpha)
