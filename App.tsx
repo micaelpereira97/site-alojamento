@@ -684,6 +684,8 @@ const App: React.FC = () => {
           selectedService ? renderServiceDetail(selectedService) : renderServicesList()
         )}
         {activeTab === Tab.LOCATION && renderLocation()}
+        {activeTab === Tab.TERMS && renderTerms()}
+        {activeTab === Tab.PRIVACY && renderPrivacy()}
       </main>
 
       {/* Footer */}
@@ -708,17 +710,20 @@ const App: React.FC = () => {
           <div>
             <h4 className="text-white font-bold mb-4 uppercase text-xs tracking-wider">Legal</h4>
             <ul className="space-y-2 text-sm">
-              <li><a href="#" className="hover:text-white transition">Termos & Condições</a></li>
-              <li><a href="#" className="hover:text-white transition">Política de Privacidade</a></li>
+              <li><button onClick={() => handleNavClick(Tab.TERMS)} className="hover:text-white transition">Termos & Condições</button></li>
+              <li><button onClick={() => handleNavClick(Tab.PRIVACY)} className="hover:text-white transition">Política de Privacidade</button></li>
               <li><button onClick={() => setShowAdminModal(true)} className="flex items-center gap-2 hover:text-white transition mt-2"><Settings size={14}/> Área do Proprietário</button></li>
             </ul>
           </div>
           <div>
             <h4 className="text-white font-bold mb-4 uppercase text-xs tracking-wider">Siga-nos</h4>
             <div className="flex space-x-4">
-              <a href="#" className="hover:text-brand-500 transition"><Instagram size={24} /></a>
-              <a href="#" className="hover:text-brand-500 transition"><Facebook size={24} /></a>
+              <a href="https://www.instagram.com/recantodanatureza" target="_blank" rel="noreferrer" className="hover:text-brand-500 transition" aria-label="Instagram"><Instagram size={24} /></a>
+              <a href="https://www.facebook.com/recantodanatureza" target="_blank" rel="noreferrer" className="hover:text-brand-500 transition" aria-label="Facebook"><Facebook size={24} /></a>
             </div>
+            <p className="text-xs text-stone-500 mt-3">
+              (Nota: Links simbólicos - configure os seus perfis reais)
+            </p>
           </div>
         </div>
         <div className="border-t border-stone-800 mt-12 pt-8 text-center text-xs">
