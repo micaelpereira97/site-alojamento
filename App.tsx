@@ -22,6 +22,8 @@ const App: React.FC = () => {
   const [showAdminModal, setShowAdminModal] = useState(false);
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
   const [lightboxImage, setLightboxImage] = useState<string | null>(null);
+  const [lightboxImages, setLightboxImages] = useState<string[]>([]);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
 
   // --- Handlers ---
   const handleNavClick = (tab: Tab) => {
@@ -78,6 +80,45 @@ const App: React.FC = () => {
       default: return <CheckCircle size={32} />;
     }
   };
+
+  // --- Lightbox Navigation ---
+  const openLightbox = (images: string[], index: number) => {
+    setLightboxImages(images);
+    setLightboxIndex(index);
+    setLightboxImage(images[index]);
+  };
+
+  const closeLightbox = () => {
+    setLightboxImage(null);
+    setLightboxImages([]);
+    setLightboxIndex(0);
+  };
+
+  const nextImage = () => {
+    if (lightboxImages.length === 0) return;
+    const newIndex = (lightboxIndex + 1) % lightboxImages.length;
+    setLightboxIndex(newIndex);
+    setLightboxImage(lightboxImages[newIndex]);
+  };
+
+  const prevImage = () => {
+    if (lightboxImages.length === 0) return;
+    const newIndex = (lightboxIndex - 1 + lightboxImages.length) % lightboxImages.length;
+    setLightboxIndex(newIndex);
+    setLightboxImage(lightboxImages[newIndex]);
+  };
+
+  // Keyboard navigation
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!lightboxImage) return;
+      if (e.key === 'ArrowRight') nextImage();
+      if (e.key === 'ArrowLeft') prevImage();
+      if (e.key === 'Escape') closeLightbox();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [lightboxImage, lightboxIndex, lightboxImages]);
 
   // --- Render Sections ---
 
@@ -234,10 +275,10 @@ const App: React.FC = () => {
                  <h3 className="font-serif font-bold text-2xl text-stone-800 mb-6">Galeria de Imagens</h3>
                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                    {service.images.map((img, idx) => (
-                     <div 
-                        key={idx} 
+                     <div
+                        key={idx}
                         className={`overflow-hidden rounded-xl cursor-pointer group relative shadow-md ${idx === 0 ? 'md:col-span-2 h-64 md:h-96' : 'h-64'}`}
-                        onClick={() => setLightboxImage(img)}
+                        onClick={() => openLightbox(service.images || [], idx)}
                      >
                        <img 
                          src={img} 
@@ -746,15 +787,101 @@ const App: React.FC = () => {
               <X size={20} />
             </button>
 
-            <div className="flex flex-col md:flex-row h-full overflow-hidden">
-              
-              {/* Coluna Esquerda: Detalhes e Galeria */}
-              <div className="md:w-1/2 bg-stone-50 flex flex-col h-full overflow-y-auto custom-scrollbar">
-                
+            <div className="flex flex-col h-full overflow-hidden">
+
+              {/* Área Superior: Calendário + Reserva */}
+              <div className="flex flex-col md:flex-row border-b border-stone-200">
+
+                {/* Esquerda: Calendário */}
+                <div className="md:w-1/2 p-8 bg-white border-r border-stone-200">
+                  <h4 className="font-serif font-bold text-2xl text-stone-800 mb-2">Reserve a sua estadia</h4>
+                  <p className="text-stone-500 text-sm mb-6">Selecione as datas no calendário</p>
+
+                  <div className="flex justify-center">
+                     <BookingCalendar onDateSelect={handleDateSelect} />
+                  </div>
+                </div>
+
+                {/* Direita: Resumo e Botão */}
+                <div className="md:w-1/2 p-8 bg-stone-50 flex flex-col justify-between">
+                  <div>
+                    <div className="mb-6 text-center">
+                      <h3 className="font-serif font-bold text-3xl text-stone-800 mb-1">{selectedUnit.name}</h3>
+                      <div className="text-right">
+                        <span className="text-4xl font-bold text-brand-700">{selectedUnit.pricePerNight}€</span>
+                        <span className="text-stone-400 text-sm ml-2">/ noite</span>
+                      </div>
+                    </div>
+
+                    {bookingDates.start && bookingDates.end && (
+                      <div className="bg-white p-6 rounded-xl border border-stone-200 mb-6 animate-fade-in">
+                        <div className="flex justify-between items-center mb-4">
+                          <div className="text-stone-600">
+                            <span className="block text-xs font-bold uppercase tracking-wider text-stone-400">Check-in</span>
+                            <span className="font-serif font-bold text-lg">{format(bookingDates.start, 'dd MMM', {locale: pt})}</span>
+                          </div>
+                          <div className="h-px bg-stone-200 w-12"></div>
+                          <div className="text-right text-stone-600">
+                            <span className="block text-xs font-bold uppercase tracking-wider text-stone-400">Check-out</span>
+                            <span className="font-serif font-bold text-lg">{format(bookingDates.end, 'dd MMM', {locale: pt})}</span>
+                          </div>
+                        </div>
+
+                        <div className="flex justify-between items-center pt-4 border-t border-stone-200">
+                          <span className="font-medium text-stone-700">Total Estadia</span>
+                          <span className="text-2xl font-bold text-brand-700">
+                             {(selectedUnit.pricePerNight * Math.ceil((bookingDates.end.getTime() - bookingDates.start.getTime()) / (1000 * 60 * 60 * 24))).toFixed(2)}€
+                          </span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  <div>
+                    {!bookingDates.start || !bookingDates.end ? (
+                      <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-4 text-center">
+                        <div className="text-amber-800 font-medium mb-1">
+                          📅 Selecione as datas de check-in e check-out
+                        </div>
+                        <div className="text-amber-600 text-sm">
+                          Clique numa data para começar e noutra para terminar
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="text-xs text-stone-500 mb-4 text-center">
+                        Ao continuar, será redirecionado para o seu Google Calendar para enviar o convite de reserva.
+                      </div>
+                    )}
+                    <div className="flex gap-4">
+                    <button
+                      onClick={() => setShowBookingModal(false)}
+                      className="flex-1 py-3 rounded-xl text-stone-600 hover:bg-stone-50 border border-transparent hover:border-stone-200 font-medium transition"
+                    >
+                      Cancelar
+                    </button>
+                    <button
+                      onClick={handleGoogleCalendarBooking}
+                      disabled={!bookingDates.start || !bookingDates.end}
+                      className="flex-[2] py-3 rounded-xl bg-brand-700 text-white font-bold hover:bg-brand-800 disabled:bg-stone-300 disabled:cursor-not-allowed transition shadow-lg shadow-brand-900/10 flex items-center justify-center gap-2"
+                    >
+                      <span>Continuar no Google Calendar</span>
+                      <ExternalLink size={18} />
+                    </button>
+                  </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Área Inferior: Galeria */}
+              <div className="flex-grow bg-stone-50 overflow-y-auto p-6">
+
                 {/* Galeria Principal */}
-                <div 
+                <div
                   className="w-full h-80 md:h-[500px] relative group cursor-pointer"
-                  onClick={() => setLightboxImage(selectedUnit.imageUrl)}
+                  onClick={() => {
+                    const allImages = [selectedUnit.imageUrl, ...(selectedUnit.images || [])];
+                    openLightbox(allImages, 0);
+                  }}
                 >
                   <img src={selectedUnit.imageUrl} alt={selectedUnit.name} className="w-full h-full object-cover" />
                   <div className="absolute top-4 right-4 bg-black/50 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition duration-300">
@@ -765,19 +892,22 @@ const App: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Grid Galeria Extra (Agora em 2 colunas e muito maiores) */}
+                {/* Grid Galeria Extra */}
                 {selectedUnit.images && selectedUnit.images.length > 0 && (
                   <div className="grid grid-cols-2 gap-2 p-4">
                     {selectedUnit.images.map((img, idx) => (
-                      <div 
-                        key={idx} 
+                      <div
+                        key={idx}
                         className="h-48 md:h-64 overflow-hidden relative cursor-pointer group rounded-lg shadow-md"
-                        onClick={() => setLightboxImage(img)}
+                        onClick={() => {
+                          const allImages = [selectedUnit.imageUrl, ...(selectedUnit.images || [])];
+                          openLightbox(allImages, idx + 1);
+                        }}
                       >
-                        <img 
-                          src={img} 
-                          alt={`Galeria ${idx}`} 
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
+                        <img
+                          src={img}
+                          alt={`Galeria ${idx}`}
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                         />
                         <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                           <Maximize className="text-white drop-shadow-md w-8 h-8" />
@@ -827,71 +957,6 @@ const App: React.FC = () => {
                 </div>
               </div>
 
-              {/* Coluna Direita: Reserva */}
-              <div className="md:w-1/2 p-8 bg-white flex flex-col h-full overflow-y-auto">
-                <div className="flex-grow">
-                  <div className="mb-8 flex items-end justify-between">
-                     <div>
-                       <h4 className="font-serif font-bold text-2xl text-stone-800">Reserve a sua estadia</h4>
-                       <p className="text-stone-500 text-sm">Selecione as datas no calendário</p>
-                     </div>
-                     <div className="text-right">
-                       <span className="text-3xl font-bold text-brand-700 block">{selectedUnit.pricePerNight}€</span>
-                       <span className="text-stone-400 text-xs">por noite</span>
-                     </div>
-                  </div>
-
-                  <div className="flex justify-center mb-8">
-                     <BookingCalendar onDateSelect={handleDateSelect} />
-                  </div>
-
-                  {bookingDates.start && bookingDates.end && (
-                     <div className="bg-brand-50 p-6 rounded-xl border border-brand-100 mb-6 animate-fade-in">
-                       <div className="flex justify-between items-center mb-4">
-                         <div className="text-stone-600">
-                           <span className="block text-xs font-bold uppercase tracking-wider text-stone-400">Check-in</span>
-                           <span className="font-serif font-bold text-lg">{format(bookingDates.start, 'dd MMM', {locale: pt})}</span>
-                         </div>
-                         <div className="h-px bg-brand-200 w-12"></div>
-                         <div className="text-right text-stone-600">
-                           <span className="block text-xs font-bold uppercase tracking-wider text-stone-400">Check-out</span>
-                           <span className="font-serif font-bold text-lg">{format(bookingDates.end, 'dd MMM', {locale: pt})}</span>
-                         </div>
-                       </div>
-                       
-                       <div className="flex justify-between items-center pt-4 border-t border-brand-200">
-                         <span className="font-medium text-stone-700">Total Estadia</span>
-                         <span className="text-2xl font-bold text-brand-700">
-                            {(selectedUnit.pricePerNight * Math.ceil((bookingDates.end.getTime() - bookingDates.start.getTime()) / (1000 * 60 * 60 * 24))).toFixed(2)}€
-                         </span>
-                       </div>
-                     </div>
-                  )}
-                </div>
-
-                <div className="border-t border-stone-100 pt-6">
-                  <div className="text-xs text-stone-500 mb-4 text-center">
-                    Ao continuar, será redirecionado para o seu Google Calendar para enviar o convite de reserva.
-                  </div>
-                  <div className="flex gap-4">
-                    <button 
-                      onClick={() => setShowBookingModal(false)}
-                      className="flex-1 py-3 rounded-xl text-stone-600 hover:bg-stone-50 border border-transparent hover:border-stone-200 font-medium transition"
-                    >
-                      Cancelar
-                    </button>
-                    <button 
-                      onClick={handleGoogleCalendarBooking}
-                      disabled={!bookingDates.start || !bookingDates.end}
-                      className="flex-[2] py-3 rounded-xl bg-brand-700 text-white font-bold hover:bg-brand-800 disabled:opacity-50 disabled:cursor-not-allowed transition shadow-lg shadow-brand-900/10 flex items-center justify-center gap-2"
-                    >
-                      <span>Continuar no Google Calendar</span>
-                      <ExternalLink size={18} />
-                    </button>
-                  </div>
-                </div>
-              </div>
-
             </div>
           </div>
         </div>
@@ -899,21 +964,57 @@ const App: React.FC = () => {
 
       {/* Lightbox Overlay */}
       {lightboxImage && (
-        <div 
+        <div
           className="fixed inset-0 z-[70] bg-black/95 flex items-center justify-center p-4 animate-fade-in"
-          onClick={() => setLightboxImage(null)}
+          onClick={closeLightbox}
         >
-          <button 
-            className="absolute top-6 right-6 text-white/70 hover:text-white transition p-2 bg-white/10 rounded-full"
-            onClick={() => setLightboxImage(null)}
+          {/* Close Button */}
+          <button
+            className="absolute top-6 right-6 text-white/70 hover:text-white transition p-2 bg-white/10 rounded-full z-10"
+            onClick={closeLightbox}
           >
             <X size={32} />
           </button>
-          <img 
-            src={lightboxImage} 
-            alt="Ecrã inteiro" 
+
+          {/* Previous Button */}
+          {lightboxImages.length > 1 && (
+            <button
+              className="absolute left-4 md:left-8 text-white/70 hover:text-white transition p-3 bg-white/10 hover:bg-white/20 rounded-full z-10"
+              onClick={(e) => {
+                e.stopPropagation();
+                prevImage();
+              }}
+            >
+              <ArrowLeft size={32} />
+            </button>
+          )}
+
+          {/* Next Button */}
+          {lightboxImages.length > 1 && (
+            <button
+              className="absolute right-4 md:right-8 text-white/70 hover:text-white transition p-3 bg-white/10 hover:bg-white/20 rounded-full z-10"
+              onClick={(e) => {
+                e.stopPropagation();
+                nextImage();
+              }}
+            >
+              <ArrowRight size={32} />
+            </button>
+          )}
+
+          {/* Image Counter */}
+          {lightboxImages.length > 1 && (
+            <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 text-white/80 bg-black/50 px-4 py-2 rounded-full text-sm font-medium">
+              {lightboxIndex + 1} / {lightboxImages.length}
+            </div>
+          )}
+
+          {/* Image */}
+          <img
+            src={lightboxImage}
+            alt="Ecrã inteiro"
             className="max-w-full max-h-full object-contain rounded-sm shadow-2xl animate-fade-in-up"
-            onClick={(e) => e.stopPropagation()} 
+            onClick={(e) => e.stopPropagation()}
           />
         </div>
       )}

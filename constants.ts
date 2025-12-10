@@ -10,14 +10,26 @@ export const UNITS: Unit[] = [
     bedrooms: 2,
     bathrooms: 1,
     amenities: ['Wi-Fi', 'Lareira', 'Cozinha Completa', 'Terraço Panorâmico', 'Vista Rio'],
-    imageUrl: 'https://images.unsplash.com/photo-1566838318109-a8ae88836540?w=800&q=80', // CAPA: Vista Douro / Vinhas
+    imageUrl: '/images/casa-da-serra/458670019.jpg', // Foto principal/capa
     images: [
-      'https://i.postimg.cc/k55WJWH1/photo-2025-11-15-17-45-52.jpg', // Sala de Jantar
-      'https://i.postimg.cc/9wbY6t18/457605203.jpg', // Quarto Principal (Ventoinha)
-      'https://i.postimg.cc/jnc4pQZY/457605347.jpg', // Casa de Banho (Flores Secas)
-      'https://i.postimg.cc/4HPQDbBk/458673346.jpg'  // Detalhe Quarto (Candeeiro)
+      '/images/casa-da-serra/457605327.jpg',
+      '/images/casa-da-serra/457605334.jpg',
+      '/images/casa-da-serra/457605347.jpg',
+      '/images/casa-da-serra/457605364.jpg',
+      '/images/casa-da-serra/458670005.jpg',
+      '/images/casa-da-serra/458670008.jpg',
+      '/images/casa-da-serra/458670010.jpg',
+      '/images/casa-da-serra/458670011.jpg',
+      '/images/casa-da-serra/458670017.jpg',
+      '/images/casa-da-serra/458670019.jpg',
+      '/images/casa-da-serra/458670023.jpg',
+      '/images/casa-da-serra/458670026.jpg',
+      '/images/casa-da-serra/458670029.jpg',
+      '/images/casa-da-serra/458670031.jpg',
+      '/images/casa-da-serra/458673346-1.jpg',
+      '/images/casa-da-serra/467087349.jpg'
     ],
-    googleCalendarId: 'b7535e176efe76894b1ee91827e733cd1a8240910bae246ea03866ba154e33a5@group.calendar.google.com' 
+    googleCalendarId: 'b7535e176efe76894b1ee91827e733cd1a8240910bae246ea03866ba154e33a5@group.calendar.google.com'
   },
   {
     id: 'unit-2',
