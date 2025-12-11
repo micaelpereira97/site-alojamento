@@ -25,117 +25,76 @@ if (serviceAccount && fs.existsSync(serviceAccount)) {
 
 const db = admin.firestore();
 
-// Import constants (you'll need to convert constants.ts data here)
+// Import constants - Data migrated from constants.ts
 const UNITS_DATA = [
   {
+    id: 'unit-1',
     name: 'Casa da Serra',
-    slug: 'casa-da-serra',
-    description: 'Espaço amplo com vista deslumbrante para a serra. Ideal para famílias, com dois quartos aconchegantes e uma sala de estar com lareira. Desfrute de manhãs tranquilas no terraço privado.',
-    price: 120,
+    description: 'Uma casa rústica em pedra com um terraço deslumbrante sobre o vale. Perfeita para quem procura a serenidade das vinhas e do rio.',
+    pricePerNight: 120,
     capacity: 4,
     bedrooms: 2,
-    bathrooms: 2,
-    amenities: [
-      'Wi-Fi',
-      'Cozinha Equipada',
-      'Lareira',
-      'Terraço Privado',
-      'Vista Serra',
-      'Estacionamento',
-      'Aquecimento',
-      'Roupa de Cama'
-    ],
+    bathrooms: 1,
+    size: 85, // m²
+    amenities: ['Wi-Fi', 'Lareira', 'Cozinha Completa', 'Terraço Panorâmico', 'Vista Rio'],
+    imageUrl: '/images/casa-da-serra/458670019.jpg',
     images: [
-      {
-        url: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=800',
-        alt: 'Casa da Serra - Vista Exterior',
-        isCover: true,
-        order: 1
-      },
-      {
-        url: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800',
-        alt: 'Casa da Serra - Sala de Estar',
-        isCover: false,
-        order: 2
-      },
-      {
-        url: 'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=800',
-        alt: 'Casa da Serra - Quarto Principal',
-        isCover: false,
-        order: 3
-      }
+      '/images/casa-da-serra/457605327.jpg',
+      '/images/casa-da-serra/457605334.jpg',
+      '/images/casa-da-serra/457605347.jpg',
+      '/images/casa-da-serra/457605364.jpg',
+      '/images/casa-da-serra/458670005.jpg',
+      '/images/casa-da-serra/458670008.jpg',
+      '/images/casa-da-serra/458670010.jpg',
+      '/images/casa-da-serra/458670011.jpg',
+      '/images/casa-da-serra/458670017.jpg',
+      '/images/casa-da-serra/458670019.jpg',
+      '/images/casa-da-serra/458670023.jpg',
+      '/images/casa-da-serra/458670026.jpg',
+      '/images/casa-da-serra/458670029.jpg',
+      '/images/casa-da-serra/458670031.jpg',
+      '/images/casa-da-serra/458673346-1.jpg',
+      '/images/casa-da-serra/467087349.jpg'
     ],
-    googleCalendarId: 'YOUR_CALENDAR_ID_1@group.calendar.google.com',
+    googleCalendarId: 'b7535e176efe76894b1ee91827e733cd1a8240910bae246ea03866ba154e33a5@group.calendar.google.com',
     isActive: true
   },
   {
+    id: 'unit-2',
     name: 'Loft do Rio',
-    slug: 'loft-do-rio',
-    description: 'Loft moderno junto ao rio, perfeito para casais. Design contemporâneo com janelas amplas que trazem a natureza para dentro. Pequeno jardim privado com acesso direto ao rio.',
-    price: 95,
+    description: 'Um espaço moderno de vidro e madeira situado nas margens do rio. Ideal para escapadinhas românticas.',
+    pricePerNight: 95,
     capacity: 2,
     bedrooms: 1,
     bathrooms: 1,
-    amenities: [
-      'Wi-Fi',
-      'Cozinha Equipada',
-      'Vista Rio',
-      'Jardim Privado',
-      'Design Moderno',
-      'Estacionamento',
-      'Aquecimento',
-      'Máquina de Café'
-    ],
+    size: 55, // m²
+    amenities: ['Wi-Fi', 'Ar Condicionado', 'Varanda Rio', 'Jacuzzi Privado'],
+    imageUrl: 'https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=800&q=80',
     images: [
-      {
-        url: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800',
-        alt: 'Loft do Rio - Vista Exterior',
-        isCover: true,
-        order: 1
-      },
-      {
-        url: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800',
-        alt: 'Loft do Rio - Interior',
-        isCover: false,
-        order: 2
-      }
+      'https://images.unsplash.com/photo-1505693416388-b034631ac954?w=800&q=80',
+      'https://images.unsplash.com/photo-1571896349842-6e5c48dc52e3?w=800&q=80',
+      'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=800&q=80'
     ],
-    googleCalendarId: 'YOUR_CALENDAR_ID_2@group.calendar.google.com',
+    googleCalendarId: '72c687fee97f44b5cb98815c596a4a40a4f8013bb7af28d22f18dba7ca3201b9@group.calendar.google.com',
     isActive: true
   },
   {
+    id: 'unit-3',
     name: 'Cabana da Floresta',
-    slug: 'cabana-da-floresta',
-    description: 'Aconchegante cabana de madeira no coração da floresta. Experiência única de contacto com a natureza, com sons da floresta como banda sonora. Perfeita para quem procura sossego e desconexão.',
-    price: 80,
+    description: 'Imersão total na natureza numa cabana de madeira ecológica. Acorde com o som dos pássaros.',
+    pricePerNight: 80,
     capacity: 2,
     bedrooms: 1,
     bathrooms: 1,
-    amenities: [
-      'Wi-Fi',
-      'Kitchenette',
-      'Lareira a Lenha',
-      'Varanda na Floresta',
-      'Observação de Aves',
-      'Trilhos Privados',
-      'Aquecimento',
-      'Isolamento Acústico'
-    ],
+    size: 45, // m²
+    amenities: ['Energia Solar', 'Rede de Descanso', 'Trilhos Privados', 'Fogão a Lenha'],
+    imageUrl: 'https://images.unsplash.com/photo-1449156493391-d2cfa28e468b?w=800&q=80',
     images: [
-      {
-        url: 'https://images.unsplash.com/photo-1587061949409-02df41d5e562?auto=format&fit=crop&w=800',
-        alt: 'Cabana da Floresta - Vista Exterior',
-        isCover: true,
-        order: 1
-      },
-      {
-        url: 'https://images.unsplash.com/photo-1542718610-a1d656d1884c?auto=format&fit=crop&w=800',
-        alt: 'Cabana da Floresta - Interior',
-        isCover: false,
-        order: 2
-      }
+      'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800&q=80',
+      'https://images.unsplash.com/photo-1598928506311-c55ded91a20c?w=800&q=80',
+      'https://images.unsplash.com/photo-1510798831971-661eb04b3739?w=800&q=80'
     ],
-    googleCalendarId: 'YOUR_CALENDAR_ID_3@group.calendar.google.com',
+    googleCalendarId: 'b3bc51ca0eff9214930e45830fab07c51b41afc2fc695d930827d64a20273c11@group.calendar.google.com',
     isActive: true
   }
 ];
@@ -146,13 +105,14 @@ async function seedUnits() {
   const batch = db.batch();
 
   for (const unit of UNITS_DATA) {
-    const unitRef = db.collection('units').doc();
+    // Use the predefined ID from constants.ts
+    const unitRef = db.collection('units').doc(unit.id);
     batch.set(unitRef, {
       ...unit,
       createdAt: admin.firestore.FieldValue.serverTimestamp(),
       updatedAt: admin.firestore.FieldValue.serverTimestamp()
     });
-    console.log(`  ✓ ${unit.name}`);
+    console.log(`  ✓ ${unit.name} (${unit.id})`);
   }
 
   await batch.commit();

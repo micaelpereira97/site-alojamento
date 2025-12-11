@@ -4,12 +4,16 @@ export interface Unit {
   description: string;
   pricePerNight: number;
   capacity: number;
-  bedrooms: number; // Novo: Nº de quartos
-  bathrooms: number; // Novo: Nº de casas de banho
+  bedrooms: number;
+  bathrooms: number;
+  size: number; // Área em m²
   amenities: string[];
   imageUrl: string;
-  images: string[]; // Novo: Galeria de imagens
-  googleCalendarId?: string;
+  images: string[];
+  googleCalendarId: string;
+  isActive: boolean;
+  createdAt: Date | { seconds: number; nanoseconds: number }; // Firestore Timestamp
+  updatedAt: Date | { seconds: number; nanoseconds: number }; // Firestore Timestamp
 }
 
 export interface Service {
@@ -29,11 +33,19 @@ export interface Activity {
 }
 
 export interface Booking {
+  id: string;
   unitId: string;
-  startDate: Date;
-  endDate: Date;
+  unitName: string; // Denormalized for easy display
   guestName: string;
-  email: string;
+  guestEmail: string;
+  guestPhone: string;
+  startDate: Date | { seconds: number; nanoseconds: number }; // Firestore Timestamp
+  endDate: Date | { seconds: number; nanoseconds: number }; // Firestore Timestamp
+  totalPrice: number;
+  status: 'pending' | 'confirmed' | 'cancelled';
+  createdAt: Date | { seconds: number; nanoseconds: number }; // Firestore Timestamp
+  calendarEventId?: string; // Google Calendar event ID (optional)
+  notes?: string; // Additional notes (optional)
 }
 
 export enum Tab {

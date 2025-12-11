@@ -1,0 +1,15 @@
+# robots.txt para Douro Valley Apartments
+# https://dourovalleyapartments.pt/robots.txt
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://dourovalleyapartments.pt/sitemap.xml
+
+# Disallow admin areas (se existirem)
+# Disallow: /admin/
+# Disallow: /api/
+
+# Crawl-delay (opcional - para bots lentos)
+# Crawl-delay: 1

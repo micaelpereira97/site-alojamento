@@ -110,7 +110,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
           <div className="flex justify-between items-center">
             <div>
               <h1 className="text-3xl font-bold mb-2">Dashboard do Proprietário</h1>
-              <p className="text-blue-100">Gestão de Reservas - Recanto da Natureza</p>
+              <p className="text-blue-100">Gestão de Reservas - Douro Valley Apartments</p>
             </div>
             <button
               onClick={onClose}

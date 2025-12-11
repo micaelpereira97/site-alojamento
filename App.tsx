@@ -7,11 +7,19 @@ import { ChatWidget } from './components/ChatWidget';
 import { GoogleMap } from './components/GoogleMap';
 import { AdminDashboard } from './components/AdminDashboard';
 import { AdminLogin } from './components/AdminLogin';
-import { MapPin, Phone, Mail, Instagram, Facebook, Menu, X, CheckCircle, Calendar as CalendarIcon, Leaf, ExternalLink, Settings, ShieldCheck, Info, Coffee, Sparkles, Bike, HeartHandshake, BedDouble, Bath, Users, Maximize, ArrowRight, ArrowLeft } from 'lucide-react';
+import { TermsAndConditions } from './components/TermsAndConditions';
+import { PrivacyPolicy } from './components/PrivacyPolicy';
+import { CookiePolicy } from './components/CookiePolicy';
+import { useUnits } from './src/hooks/useUnits';
+import { MapPin, Phone, Mail, Instagram, Facebook, Menu, X, CheckCircle, Calendar as CalendarIcon, Leaf, ExternalLink, Settings, ShieldCheck, Info, Coffee, Sparkles, Bike, HeartHandshake, BedDouble, Bath, Users, Maximize, ArrowRight, ArrowLeft, FileText, Cookie } from 'lucide-react';
 import { format } from 'date-fns';
 import { pt } from 'date-fns/locale';
 
 const App: React.FC = () => {
+  // Fetch units from Firestore (fallback to constants if empty/error)
+  const { units: firestoreUnits, loading: unitsLoading, error: unitsError } = useUnits();
+  const units = firestoreUnits.length > 0 ? firestoreUnits : UNITS;
+
   const [activeTab, setActiveTab] = useState<Tab>(Tab.HOME);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [selectedUnit, setSelectedUnit] = useState<Unit | null>(null);
@@ -21,6 +29,9 @@ const App: React.FC = () => {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showAdminModal, setShowAdminModal] = useState(false);
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
+  const [showTermsModal, setShowTermsModal] = useState(false);
+  const [showPrivacyModal, setShowPrivacyModal] = useState(false);
+  const [showCookieModal, setShowCookieModal] = useState(false);
   const [lightboxImage, setLightboxImage] = useState<string | null>(null);
   const [lightboxImages, setLightboxImages] = useState<string[]>([]);
   const [lightboxIndex, setLightboxIndex] = useState(0);
@@ -50,7 +61,7 @@ const App: React.FC = () => {
     
     const title = encodeURIComponent(`Reserva: ${unit.name}`);
     const details = encodeURIComponent(`Pedido de reserva via website.\n\nUnidade: ${unit.name}\n\nPor favor, aguarde a confirmação do proprietário (aceitação deste convite).`);
-    const location = encodeURIComponent("Recanto da Natureza - Serra da Lousã");
+    const location = encodeURIComponent("Douro Valley Apartments - Vale do Douro");
     
     // O ID do calendário funciona como um email para receber convites
     const inviteEmail = unit.googleCalendarId;
@@ -127,9 +138,9 @@ const App: React.FC = () => {
       {/* Hero */}
       <div className="relative h-[80vh] w-full flex items-center justify-center text-center px-4 overflow-hidden">
         <div className="absolute inset-0 bg-black/40 z-10" />
-        <img 
-          src="https://images.unsplash.com/photo-1511497584788-876760111969?w=1920&q=80" 
-          alt="Floresta densa e tranquila" 
+        <img
+          src="/images/hero-douro.jpg"
+          alt="Vista aérea do Vale do Douro com vinhedos e rio - Douro Valley Apartments"
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="relative z-20 max-w-4xl text-white">
@@ -157,8 +168,8 @@ const App: React.FC = () => {
           <div className="space-y-6">
             <h2 className="text-3xl md:text-4xl font-serif font-bold text-stone-800">Uma experiência autêntica</h2>
             <p className="text-stone-600 text-lg leading-relaxed">
-              O Recanto da Natureza nasceu do desejo de partilhar a beleza intocada desta região. 
-              Cada uma das nossas casas foi pensada para respeitar o ambiente envolvente, utilizando materiais locais 
+              O Douro Valley Apartments nasceu do desejo de partilhar a beleza intocada desta região.
+              Cada uma das nossas casas foi pensada para respeitar o ambiente envolvente, utilizando materiais locais
               e práticas sustentáveis.
             </p>
             <div className="grid grid-cols-2 gap-6 pt-4">
@@ -199,7 +210,13 @@ const App: React.FC = () => {
       </div>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {UNITS.map(unit => (
+        {unitsLoading && (
+          <div className="col-span-full text-center py-12">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-500 mx-auto"></div>
+            <p className="mt-4 text-stone-600">A carregar alojamentos...</p>
+          </div>
+        )}
+        {!unitsLoading && units.map(unit => (
           <UnitCard key={unit.id} unit={unit} onBook={handleBookClick} />
         ))}
       </div>
@@ -362,7 +379,7 @@ const App: React.FC = () => {
               <h3 className="text-xl font-serif font-bold mb-4 flex items-center gap-2">
                 <MapPin /> Morada
               </h3>
-              <p className="text-brand-100">Estrada Nacional 2, km 45<br/>Serra da Lousã, Portugal</p>
+              <p className="text-brand-100">Douro Valley View Apartments<br/>Vale do Douro, Portugal</p>
             </div>
             <div>
               <h3 className="text-xl font-serif font-bold mb-4 flex items-center gap-2">
@@ -381,8 +398,10 @@ const App: React.FC = () => {
         </div>
         <div className="md:col-span-2 h-96 md:h-auto">
           <GoogleMap
-            address="Serra da Lousã, Portugal"
-            zoom={13}
+            address="Douro Valley View Apartments, Vale do Douro, Portugal"
+            lat={41.1094163}
+            lng={-7.6934184}
+            zoom={15}
             className="w-full h-full"
           />
         </div>
@@ -399,7 +418,7 @@ const App: React.FC = () => {
 
           <h2 className="text-2xl font-serif font-bold mt-8 mb-4">1. Aceitação dos Termos</h2>
           <p>
-            Ao utilizar o website do Recanto da Natureza e ao efetuar uma reserva, você aceita e concorda em ficar vinculado aos presentes Termos e Condições. Se não concordar com estes termos, por favor não utilize os nossos serviços.
+            Ao utilizar o website do Douro Valley Apartments e ao efetuar uma reserva, você aceita e concorda em ficar vinculado aos presentes Termos e Condições. Se não concordar com estes termos, por favor não utilize os nossos serviços.
           </p>
 
           <h2 className="text-2xl font-serif font-bold mt-8 mb-4">2. Reservas</h2>
@@ -451,7 +470,7 @@ const App: React.FC = () => {
 
           <h2 className="text-2xl font-serif font-bold mt-8 mb-4">7. Limitação de Responsabilidade</h2>
           <p>
-            O Recanto da Natureza não se responsabiliza por perdas, danos ou lesões ocorridas durante a estadia, exceto nos casos previstos por lei.
+            O Douro Valley Apartments não se responsabiliza por perdas, danos ou lesões ocorridas durante a estadia, exceto nos casos previstos por lei.
           </p>
 
           <h2 className="text-2xl font-serif font-bold mt-8 mb-4">8. Alterações aos Termos</h2>
@@ -495,15 +514,14 @@ const App: React.FC = () => {
           <p className="text-sm text-stone-500 mb-8">Última atualização: 9 de Dezembro de 2025</p>
 
           <p className="text-lg text-stone-700 mb-6">
-            O Recanto da Natureza respeita a sua privacidade e está comprometido em proteger os seus dados pessoais. Esta política descreve como recolhemos, utilizamos e protegemos as suas informações.
+            O Douro Valley Apartments respeita a sua privacidade e está comprometido em proteger os seus dados pessoais. Esta política descreve como recolhemos, utilizamos e protegemos as suas informações.
           </p>
 
           <h2 className="text-2xl font-serif font-bold mt-8 mb-4">1. Responsável pelo Tratamento de Dados</h2>
           <p>
-            <strong>Recanto da Natureza</strong><br />
-            Estrada Nacional 2, km 45<br />
-            Serra da Lousã, Portugal<br />
-            Email: ola@recantodanatureza.pt<br />
+            <strong>Douro Valley Apartments</strong><br />
+            Vale do Douro, Portugal<br />
+            Email: info@dourovalleyapartments.pt<br />
             Telefone: +351 912 345 678
           </p>
 
@@ -651,7 +669,7 @@ const App: React.FC = () => {
               onClick={() => handleNavClick(Tab.HOME)}
             >
               <Leaf className={`h-8 w-8 mr-2 ${selectedService ? 'text-white' : 'text-brand-600'}`} />
-              <span className={`font-serif font-bold text-xl ${selectedService ? 'text-white' : 'text-stone-800'}`}>Recanto da Natureza</span>
+              <span className={`font-serif font-bold text-xl ${selectedService ? 'text-white' : 'text-stone-800'}`}>Douro Valley Apartments</span>
             </div>
             
             {/* Desktop Menu */}
@@ -737,10 +755,10 @@ const App: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 grid md:grid-cols-4 gap-8">
           <div className="col-span-1 md:col-span-1">
              <div className="flex items-center text-white font-serif font-bold text-xl mb-4">
-                <Leaf className="mr-2" /> Recanto da Natureza
+                <Leaf className="mr-2" /> Douro Valley Apartments
              </div>
              <p className="text-sm leading-relaxed mb-4">
-               Alojamento local sustentável no coração da serra. A sua casa longe de casa.
+               Alojamento local sustentável no coração do Vale do Douro. A sua casa longe de casa.
              </p>
           </div>
           <div>
@@ -754,8 +772,19 @@ const App: React.FC = () => {
           <div>
             <h4 className="text-white font-bold mb-4 uppercase text-xs tracking-wider">Legal</h4>
             <ul className="space-y-2 text-sm">
-              <li><button onClick={() => handleNavClick(Tab.TERMS)} className="hover:text-white transition">Termos & Condições</button></li>
-              <li><button onClick={() => handleNavClick(Tab.PRIVACY)} className="hover:text-white transition">Política de Privacidade</button></li>
+              <li><button onClick={() => setShowTermsModal(true)} className="flex items-center gap-2 hover:text-white transition"><FileText size={14}/> Termos & Condições</button></li>
+              <li><button onClick={() => setShowPrivacyModal(true)} className="flex items-center gap-2 hover:text-white transition"><ShieldCheck size={14}/> Política de Privacidade</button></li>
+              <li><button onClick={() => setShowCookieModal(true)} className="flex items-center gap-2 hover:text-white transition"><Cookie size={14}/> Política de Cookies</button></li>
+              <li>
+                <a
+                  href="https://www.livroreclamacoes.pt/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 hover:text-white transition"
+                >
+                  <ExternalLink size={14}/> Livro de Reclamações
+                </a>
+              </li>
               <li><button onClick={() => setShowAdminModal(true)} className="flex items-center gap-2 hover:text-white transition mt-2"><Settings size={14}/> Área do Proprietário</button></li>
             </ul>
           </div>
@@ -771,7 +800,7 @@ const App: React.FC = () => {
           </div>
         </div>
         <div className="border-t border-stone-800 mt-12 pt-8 text-center text-xs">
-          &copy; {new Date().getFullYear()} Recanto da Natureza. Todos os direitos reservados.
+          &copy; {new Date().getFullYear()} Douro Valley Apartments. Todos os direitos reservados.
         </div>
       </footer>
 
@@ -1064,6 +1093,19 @@ const App: React.FC = () => {
             <p className="text-sm text-blue-700">Por favor, guarde o evento para enviar o seu pedido.</p>
           </div>
         </div>
+      )}
+
+      {/* Legal Modals */}
+      {showTermsModal && (
+        <TermsAndConditions onClose={() => setShowTermsModal(false)} />
+      )}
+
+      {showPrivacyModal && (
+        <PrivacyPolicy onClose={() => setShowPrivacyModal(false)} />
+      )}
+
+      {showCookieModal && (
+        <CookiePolicy onClose={() => setShowCookieModal(false)} />
       )}
 
       {/* AI Chat Widget */}

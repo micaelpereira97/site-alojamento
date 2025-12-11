@@ -4,7 +4,7 @@ import { GoogleGenAI } from "@google/genai";
 import { UNITS, SERVICES, ACTIVITIES } from '../constants';
 
 const SYSTEM_INSTRUCTION = `
-És a assistente virtual "Flora" do alojamento local "Recanto da Natureza".
+És a assistente virtual "Flora" do alojamento local "Douro Valley Apartments".
 O teu tom é amigável, acolhedor e prestável. Respondes sempre em Português.
 Objetivo: Ajudar potenciais hóspedes com dúvidas sobre as casas, serviços e o que fazer.
 
@@ -27,7 +27,7 @@ Regras:
 export const ChatWidget: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<{role: 'user' | 'model', text: string}[]>([
-    { role: 'model', text: 'Olá! Sou a Flora. Como posso ajudar na sua estadia no Recanto da Natureza?' }
+    { role: 'model', text: 'Olá! Sou a Flora. Como posso ajudar na sua estadia no Douro Valley Apartments?' }
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
